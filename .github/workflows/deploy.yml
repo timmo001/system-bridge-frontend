@@ -16,7 +16,6 @@ jobs:
         yarn export
       artifact-name: frontend-out
       artifact-path: frontend/out
-      code-path: frontend
   deploy:
     needs:
       - build-node
