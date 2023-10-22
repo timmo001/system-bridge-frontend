@@ -9,12 +9,26 @@ on:
   workflow_dispatch:
 
 jobs:
+  build-node:
+    uses: timmo001/workflows/.github/workflows/build-node-linux.yml@master
+    with:
+      additional-build-commands: |
+        yarn export
+      artifact-name: frontend-out
+      artifact-path: frontend/out
+      code-path: frontend
   deploy:
+    needs:
+      - build-node
     uses: timmo001/workflows/.github/workflows/deploy-python-linux.yml@master
     secrets:
       PUSH_TOKEN: ${{ secrets.PUSH_TOKEN }}
       PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
       PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
     with:
+      additional-artifacts-name: frontend-out
+      additional-artifacts-path: frontend/out
       module-name: systembridgefrontend
+      pre-install-command: |
+        pip install .
       use-incremental: true

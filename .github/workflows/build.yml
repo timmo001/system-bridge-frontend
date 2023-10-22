@@ -18,5 +18,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-node:
+    uses: timmo001/workflows/.github/workflows/build-node-linux.yml@master
+    with:
+      additional-build-commands: |
+        yarn export
+      artifact-name: frontend-out
+      artifact-path: frontend/out
+  build-python:
+    needs:
+      - build-node
     uses: timmo001/workflows/.github/workflows/build-python-linux.yml@master
+    with:
+      additional-artifacts-name: frontend-out
+      additional-artifacts-path: frontend/out
