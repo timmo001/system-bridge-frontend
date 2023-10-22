@@ -167,6 +167,10 @@ logs
 node_modules/
 #  Optional npm cache directory
 .npm
+#  Yarn
+.yarn/
+yarn-error.log
+
 #  Optional eslint cache
 .eslintcache
 #  Build files
