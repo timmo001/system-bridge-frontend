@@ -31,7 +31,7 @@ jobs:
   lint-prettier:
     uses: timmo001/workflows/.github/workflows/lint-prettier.yml@master
     with:
-      file-types: "{js,json,ts,tsx,yml,yaml}"
+      file-types: "{json,ts,tsx,yml,yaml}"
   # lint-pylint:
   #   uses: timmo001/workflows/.github/workflows/lint-pylint.yml@master
   #   with:
