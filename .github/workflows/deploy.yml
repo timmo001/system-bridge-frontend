@@ -16,7 +16,7 @@ jobs:
         yarn export
       artifact-name: frontend-out
       artifact-path: out
-  deploy:
+  deploy-python:
     needs:
       - build-node
     uses: timmo001/workflows/.github/workflows/deploy-python-linux.yml@master
