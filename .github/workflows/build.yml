@@ -24,7 +24,7 @@ jobs:
       additional-build-commands: |
         yarn export
       artifact-name: frontend-out
-      artifact-path: frontend/out
+      artifact-path: out
   build-python:
     needs:
       - build-node
