@@ -15,7 +15,7 @@ jobs:
       additional-build-commands: |
         yarn export
       artifact-name: frontend-out
-      artifact-path: frontend/out
+      artifact-path: out
   deploy:
     needs:
       - build-node
@@ -26,7 +26,7 @@ jobs:
       PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
     with:
       additional-artifacts-name: frontend-out
-      additional-artifacts-path: frontend/out
+      additional-artifacts-path: out
       module-name: systembridgefrontend
       pre-install-command: |
         pip install .

@@ -31,4 +31,4 @@ jobs:
     uses: timmo001/workflows/.github/workflows/build-python-linux.yml@master
     with:
       additional-artifacts-name: frontend-out
-      additional-artifacts-path: frontend/out
+      additional-artifacts-path: out
