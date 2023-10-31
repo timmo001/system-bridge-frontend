@@ -420,28 +420,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/base@npm:5.0.0-beta.21":
-  version: 5.0.0-beta.21
-  resolution: "@mui/base@npm:5.0.0-beta.21"
-  dependencies:
-    "@babel/runtime": ^7.23.2
-    "@floating-ui/react-dom": ^2.0.2
-    "@mui/types": ^7.2.7
-    "@mui/utils": ^5.14.15
-    "@popperjs/core": ^2.11.8
-    clsx: ^2.0.0
-    prop-types: ^15.8.1
-  peerDependencies:
-    "@types/react": ^17.0.0 || ^18.0.0
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: c33de1a4f865e6d1669a37e149ac78ebb744c152229b4c56839254514153e80baa501789f68852ac9c9dae7c9fc9645f16eecac07220c1981ab5f916de54090d
-  languageName: node
-  linkType: hard
-
 "@mui/base@npm:5.0.0-beta.22":
   version: 5.0.0-beta.22
   resolution: "@mui/base@npm:5.0.0-beta.22"
@@ -471,15 +449,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/lab@npm:5.0.0-alpha.150":
-  version: 5.0.0-alpha.150
-  resolution: "@mui/lab@npm:5.0.0-alpha.150"
+"@mui/lab@npm:5.0.0-alpha.151":
+  version: 5.0.0-alpha.151
+  resolution: "@mui/lab@npm:5.0.0-alpha.151"
   dependencies:
     "@babel/runtime": ^7.23.2
-    "@mui/base": 5.0.0-beta.21
-    "@mui/system": ^5.14.15
-    "@mui/types": ^7.2.7
-    "@mui/utils": ^5.14.15
+    "@mui/base": 5.0.0-beta.22
+    "@mui/system": ^5.14.16
+    "@mui/types": ^7.2.8
+    "@mui/utils": ^5.14.16
     "@mui/x-tree-view": 6.0.0-alpha.1
     clsx: ^2.0.0
     prop-types: ^15.8.1
@@ -497,7 +475,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 69cb6cd1d9cefccd99664e6ee25d1f2640b68a3c2d1c9eaeb662850102e83faef0ea48d5811a1d9e2b6eb88569b0fe55d0d4bdf93bfd2ad8eeaf03c9b8100996
+  checksum: b1a722f920c2f9575cc8530a69c63e0e6962826321e5af200ced6814f8cdf85a3f58a30a1a90599eec369916bf3563b82cdbf752dcfc6b617c61e9c72cf35a19
   languageName: node
   linkType: hard
 
@@ -568,27 +546,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/styled-engine@npm:^5.14.15":
-  version: 5.14.15
-  resolution: "@mui/styled-engine@npm:5.14.15"
-  dependencies:
-    "@babel/runtime": ^7.23.2
-    "@emotion/cache": ^11.11.0
-    csstype: ^3.1.2
-    prop-types: ^15.8.1
-  peerDependencies:
-    "@emotion/react": ^11.4.1
-    "@emotion/styled": ^11.3.0
-    react: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@emotion/react":
-      optional: true
-    "@emotion/styled":
-      optional: true
-  checksum: fb991d3befc04d3be490957e2fe235313b77bb38cc8b85878efd8c98eafa0139d0f85d2127ce0b9b65c4462481e3c19ff260102ee46c6cc96a4a938ffcaa2766
-  languageName: node
-  linkType: hard
-
 "@mui/styled-engine@npm:^5.14.16":
   version: 5.14.16
   resolution: "@mui/styled-engine@npm:5.14.16"
@@ -638,34 +595,6 @@ __metadata:
     "@types/react":
       optional: true
   checksum: d6674528b841d0eeb06891b065954eb1a9c99fd482510d30c681e68efbca398de9e1d6294eaece0765903a69ac6b0f620540289911ab90cb924c1233319159d6
-  languageName: node
-  linkType: hard
-
-"@mui/system@npm:^5.14.15":
-  version: 5.14.15
-  resolution: "@mui/system@npm:5.14.15"
-  dependencies:
-    "@babel/runtime": ^7.23.2
-    "@mui/private-theming": ^5.14.15
-    "@mui/styled-engine": ^5.14.15
-    "@mui/types": ^7.2.7
-    "@mui/utils": ^5.14.15
-    clsx: ^2.0.0
-    csstype: ^3.1.2
-    prop-types: ^15.8.1
-  peerDependencies:
-    "@emotion/react": ^11.5.0
-    "@emotion/styled": ^11.3.0
-    "@types/react": ^17.0.0 || ^18.0.0
-    react: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@emotion/react":
-      optional: true
-    "@emotion/styled":
-      optional: true
-    "@types/react":
-      optional: true
-  checksum: 39a451d138433a2c4007e4e9b7c5ff60fa3c7ff4b9a0e3612b4024acce815a98ba2035a6b2aa28d457e40ee1e0613d096a50d7e2931294ec97df046957e0324b
   languageName: node
   linkType: hard
 
@@ -5107,7 +5036,7 @@ __metadata:
     "@fontsource/roboto": 5.0.8
     "@mdi/js": 7.3.67
     "@mdi/react": 1.6.1
-    "@mui/lab": 5.0.0-alpha.150
+    "@mui/lab": 5.0.0-alpha.151
     "@mui/material": 5.14.16
     "@mui/styles": 5.14.15
     "@types/lodash": 4.14.200
