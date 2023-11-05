@@ -22,6 +22,7 @@ const modules = [
   "media",
   "memory",
   "network",
+  "processes",
   "sensors",
   "system",
 ];
@@ -35,6 +36,7 @@ const moduleMap: { [key: string]: string } = {
   media: "Media",
   memory: "Memory",
   network: "Network",
+  processes: "Processes",
   sensors: "Sensors",
   system: "System",
 };
@@ -50,6 +52,7 @@ const initialDataMap: DataMap = {
   media: {},
   memory: {},
   network: {},
+  processes: {},
   sensors: {},
   system: {},
 };
