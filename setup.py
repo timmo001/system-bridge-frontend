@@ -1,19 +1,18 @@
 """Setup"""
-import io
 import os
-from distutils.dir_util import copy_tree
+from shutil import copytree
 
 from setuptools import find_packages, setup
 
 # Get setup packages from requirements.txt
-with io.open("requirements_setup.txt", encoding="utf-8") as f:
+with open("requirements_setup.txt", encoding="utf-8") as f:
     requirements_setup = f.read().splitlines()
 
 # Get packages from requirements.txt
-with io.open("requirements.txt", encoding="utf-8") as f:
+with open("requirements.txt", encoding="utf-8") as f:
     requirements = f.read().splitlines()
 
-copy_tree("out", "systembridgefrontend/out")
+copytree("out", "systembridgefrontend/out")
 
 package_data = ["out/**/*"]
 
