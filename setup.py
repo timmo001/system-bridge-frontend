@@ -12,7 +12,11 @@ with open("requirements_setup.txt", encoding="utf-8") as f:
 with open("requirements.txt", encoding="utf-8") as f:
     requirements = f.read().splitlines()
 
-copytree("out", "systembridgefrontend/out")
+copytree(
+    "out",
+    "systembridgefrontend/out",
+    dirs_exist_ok=True,
+)
 
 package_data = ["out/**/*"]
 
