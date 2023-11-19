@@ -1,10 +1,17 @@
-import { ReactElement } from "react";
-import dynamic from "next/dynamic";
-import { CardContent, CircularProgress, Grid, Typography } from "@mui/material";
-
-const BrowserReactJsonView = dynamic(() => import("react-json-view"), {
-  ssr: false,
-});
+import { ReactElement, useMemo } from "react";
+import {
+  CardContent,
+  CircularProgress,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
 function DataItemsComponent({
   name,
@@ -13,23 +20,57 @@ function DataItemsComponent({
   name: string;
   data: any;
 }): ReactElement {
+  const dataMap = useMemo<Array<[string, any]>>(
+    () =>
+      Object.entries(data).sort(
+        ([keyA]: [string, any], [keyB]: [string, any]) =>
+          keyA.localeCompare(keyB)
+      ),
+    [data]
+  );
+
+  const lastUpdated = dataMap.find(
+    ([key, value]: [string, any]) =>
+      key === "last_updated" && typeof value === "object"
+  );
+
   return (
     <CardContent>
       <Typography gutterBottom variant="h4" component="h3">
         {name}
       </Typography>
       {data ? (
-        <BrowserReactJsonView
-          src={data}
-          displayDataTypes={false}
-          displayObjectSize
-          enableClipboard
-          iconStyle="triangle"
-          name={null}
-          collapseStringsAfterLength={140}
-          style={{ background: "initial", maxWidth: "100%" }}
-          theme="google"
-        />
+        <>
+          {/* Show data as table */}
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Key</TableCell>
+                  <TableCell>Value</TableCell>
+                  <TableCell>Last Updated</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataMap.map(
+                  ([key, value]: [string, any], index: number) =>
+                    key !== "last_updated" &&
+                    typeof value !== "object" && (
+                      <TableRow key={index}>
+                        <TableCell>{key}</TableCell>
+                        <TableCell>{value}</TableCell>
+                        <TableCell>
+                          {new Date(
+                            lastUpdated?.[1][key] * 1000
+                          ).toLocaleString()}
+                        </TableCell>
+                      </TableRow>
+                    )
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
       ) : (
         <Grid container direction="row" justifyContent="center">
           <CircularProgress />
