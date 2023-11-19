@@ -58,7 +58,7 @@ function DataItemsComponent({
                     typeof value !== "object" && (
                       <TableRow key={index}>
                         <TableCell>{key}</TableCell>
-                        <TableCell>{value}</TableCell>
+                        <TableCell>{String(value)}</TableCell>
                         <TableCell>
                           {new Date(
                             lastUpdated?.[1][key] * 1000
