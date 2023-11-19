@@ -38,16 +38,16 @@ function BridgesSetupComponent(): ReactElement {
           : "localhost"
       }:${query.apiPort || 9170}/api/remote`,
       {
-        headers: { "api-key": query.apiKey as string },
+        headers: { "api-key": query.token as string },
       },
     );
     if (response && response.status < 400) {
       setBridges(response.data.data);
     }
-  }, [query.apiHost, query.apiPort, query.apiKey]);
+  }, [query.apiHost, query.apiPort, query.token]);
 
   useEffect(() => {
-    if (!setup && query && query.apiKey) {
+    if (!setup && query && query.token) {
       setSetup(true);
       handleSetup();
     }
@@ -98,10 +98,10 @@ function BridgesSetupComponent(): ReactElement {
                   >
                     <ListItemText
                       primary={`${bridge.name} ${
-                        bridge.api_key ? "" : "(Not Configured)"
+                        bridge.token ? "" : "(Not Configured)"
                       }`}
                       secondary={`${bridge.host}:${bridge.port}`}
-                      color={bridge.api_key ? "primary" : "error"}
+                      color={bridge.token ? "primary" : "error"}
                     />
                   </ListItem>
                 ))}

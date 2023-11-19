@@ -8,11 +8,11 @@ export interface APIRequest {
 }
 
 export class API {
-  private apiKey: string;
+  private token: string;
   public port: number;
 
-  constructor(port: number, apiKey: string) {
-    this.apiKey = apiKey;
+  constructor(port: number, token: string) {
+    this.token = token;
     this.port = port || 9170;
   }
 
@@ -26,7 +26,7 @@ export class API {
       baseURL: `http://localhost:${this.port}`,
       data: body,
       headers: {
-        "api-key": this.apiKey,
+        "api-key": this.token,
       },
       method,
       params,

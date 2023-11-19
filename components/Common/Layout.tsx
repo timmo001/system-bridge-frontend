@@ -25,12 +25,12 @@ function Layout(props: LayoutProps): ReactElement {
   useEffect(() => {
     if (typeof window !== "undefined" && router.isReady && !queryChecked) {
       queryChecked = true;
-      let newApiKey: string | null = (router.query?.apiKey as string) || "",
+      let newToken: string | null = (router.query?.token as string) || "",
         newApiPort: string | null = (router.query?.apiPort as string) || "9170",
         needUpdate = false;
-      if (!router.query?.apiKey) {
+      if (!router.query?.token) {
         needUpdate = true;
-        newApiKey = window.prompt("Please enter your API key", newApiKey);
+        newToken = window.prompt("Please enter your Token", newToken);
       }
       if (!router.query?.apiPort) {
         needUpdate = true;
@@ -39,7 +39,7 @@ function Layout(props: LayoutProps): ReactElement {
           newApiPort,
         );
       }
-      if (needUpdate && newApiKey && newApiPort) {
+      if (needUpdate && newToken && newApiPort) {
         const path = router.asPath.split("?")[0];
         router.replace({
           pathname:
@@ -50,7 +50,7 @@ function Layout(props: LayoutProps): ReactElement {
               : `${path}.html`,
           query: {
             ...router.query,
-            apiKey: newApiKey,
+            token: newToken,
             apiPort: newApiPort,
           },
         });

@@ -59,7 +59,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
           ? window.location.hostname
           : "localhost"
       }:${query.apiPort || 9170}/api/remote/${bridge.key}`,
-      { headers: { "api-key": query.apiKey as string } },
+      { headers: { "api-key": query.token as string } },
     );
     if (response && response.status < 400) props.handleClose();
     else setTestingMessage({ text: "Failed to delete bridge", error: true });
@@ -85,11 +85,11 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
               `${url}/${bridge.key}`,
               bridgeData,
               {
-                headers: { "api-key": query.apiKey as string },
+                headers: { "api-key": query.token as string },
               },
             )
           : await axios.post<Partial<Bridge>>(url, bridgeData, {
-              headers: { "api-key": query.apiKey as string },
+              headers: { "api-key": query.token as string },
             });
         if (response && response.status < 400) props.handleClose();
         else setTestingMessage({ text: "Failed to save bridge", error: true });
@@ -101,12 +101,12 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
 
   async function handleTestBridge(): Promise<System | null> {
     setTestingMessage({ text: "Testing bridge..", error: false });
-    if (bridge?.api_key)
+    if (bridge?.token)
       try {
         const response = await axios.get<System>(
           `http://${bridge.host}:${bridge.port}/api/data/system`,
           {
-            headers: { "api-key": bridge.api_key },
+            headers: { "api-key": bridge.token },
           },
         );
         if (response && response.status < 400) {
@@ -181,11 +181,11 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
 
         <TextField
           fullWidth
-          id="api_key"
-          label="API Key"
-          onChange={handleTextChanged("api_key")}
+          id="token"
+          label="Token"
+          onChange={handleTextChanged("token")}
           type="text"
-          value={bridge.api_key || ""}
+          value={bridge.token || ""}
           variant="outlined"
           sx={{ margin: theme.spacing(1, 0) }}
         />

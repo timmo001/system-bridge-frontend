@@ -68,9 +68,9 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
   );
 
   const handleSetupWebSocket = useCallback(
-    (port: number, apiKey: string) => {
+    (port: number, token: string) => {
       console.log("Setup WebSocketConnection");
-      websocket = new WebSocketConnection(port, apiKey, async () => {
+      websocket = new WebSocketConnection(port, token, async () => {
         console.log("Connected to WebSocket");
       });
       websocket.onEvent = eventHandler;
@@ -79,9 +79,9 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
   );
 
   useEffect(() => {
-    if (!webSocketSetup && query && query.apiKey) {
+    if (!webSocketSetup && query && query.token) {
       setWebSocketSetup(true);
-      handleSetupWebSocket(Number(query.apiPort) || 9170, String(query.apiKey));
+      handleSetupWebSocket(Number(query.apiPort) || 9170, String(query.token));
     }
   }, [webSocketSetup, handleSetupWebSocket, query]);
 

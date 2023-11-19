@@ -41,29 +41,29 @@ function BridgesOpenOnComponent(): ReactElement {
           : "localhost"
       }:${query.apiPort || 9170}/api/remote`,
       {
-        headers: { "api-key": query.apiKey as string },
+        headers: { "api-key": query.token as string },
       },
     );
     if (response && response.status < 400) {
       const newBridges = response.data.data.filter(
-        (bridge: Bridge) => bridge.api_key,
+        (bridge: Bridge) => bridge.token,
       );
       setBridges(newBridges);
       setBridgeSelected(newBridges[0]);
     }
-  }, [query.apiHost, query.apiPort, query.apiKey, query.url]);
+  }, [query.apiHost, query.apiPort, query.token, query.url]);
 
   function handleUrlChanged(event: ChangeEvent<HTMLInputElement>): void {
     setUrl(event.target.value);
   }
 
   async function handleOpenOn(): Promise<void> {
-    if (bridgeSelected?.api_key) {
+    if (bridgeSelected?.token) {
       try {
         const response = await axios.post<{ path: string }>(
           `http://${bridgeSelected.host}:${bridgeSelected.port}/api/open`,
           { [url.includes("://") ? "url" : "path"]: url },
-          { headers: { "api-key": bridgeSelected.api_key } },
+          { headers: { "api-key": bridgeSelected.token } },
         );
         if (response && response.status < 400) {
           console.log(response.data);
@@ -75,7 +75,7 @@ function BridgesOpenOnComponent(): ReactElement {
   }
 
   useEffect(() => {
-    if (!setup && query && query.apiKey) {
+    if (!setup && query && query.token) {
       setSetup(true);
       handleSetup();
     }

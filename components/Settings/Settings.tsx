@@ -95,9 +95,9 @@ function Settings(): ReactElement {
   );
 
   const handleSetup = useCallback(
-    (port: number, apiKey: string) => {
+    (port: number, token: string) => {
       console.log("Setup WebSocketConnection");
-      ws = new WebSocketConnection(port, apiKey, async () => {
+      ws = new WebSocketConnection(port, token, async () => {
         ws.getSettings();
       });
       ws.onEvent = eventHandler;
@@ -114,9 +114,9 @@ function Settings(): ReactElement {
   );
 
   useEffect(() => {
-    if (!setup && query && query.apiKey) {
+    if (!setup && query && query.token) {
       setSetup(true);
-      handleSetup(Number(query.apiPort) || 9170, String(query.apiKey));
+      handleSetup(Number(query.apiPort) || 9170, String(query.token));
     }
   }, [setup, handleSetup, query]);
 

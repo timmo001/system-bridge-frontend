@@ -61,7 +61,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
     if (value) handleSetSetting(value);
   }
 
-  function handleGenerateApiKey(): void {
+  function handleGenerateToken(): void {
     handleSetSetting(uuidv4());
   }
 
@@ -128,7 +128,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
                       checked={value}
                       onChange={handleCheckedChanged}
                     />
-                  ) : typeof valueIn === "string" && keyIn === "api_key" ? (
+                  ) : typeof valueIn === "string" && keyIn === "token" ? (
                     <FormControl fullWidth variant="outlined">
                       <OutlinedInput
                         type="text"
@@ -137,15 +137,15 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
                         endAdornment={
                           <InputAdornment position="end">
                             <IconButton
-                              aria-label="Generate Api Key"
-                              onClick={handleGenerateApiKey}
+                              aria-label="Generate Token"
+                              onClick={handleGenerateToken}
                               edge="end"
                               size="large"
                               sx={{ margin: theme.spacing(-1, -0.5) }}
                             >
                               <Icon
                                 id="generate-api-key"
-                                title="Generate API Key"
+                                title="Generate Token"
                                 size={1}
                                 path={mdiCached}
                               />
