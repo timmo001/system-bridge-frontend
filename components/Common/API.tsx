@@ -26,7 +26,7 @@ export class API {
       baseURL: `http://localhost:${this.port}`,
       data: body,
       headers: {
-        "api-key": this.token,
+        "token": this.token,
       },
       method,
       params,

@@ -59,7 +59,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
           ? window.location.hostname
           : "localhost"
       }:${query.apiPort || 9170}/api/remote/${bridge.key}`,
-      { headers: { "api-key": query.token as string } },
+      { headers: { "token": query.token as string } },
     );
     if (response && response.status < 400) props.handleClose();
     else setTestingMessage({ text: "Failed to delete bridge", error: true });
@@ -85,11 +85,11 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
               `${url}/${bridge.key}`,
               bridgeData,
               {
-                headers: { "api-key": query.token as string },
+                headers: { "token": query.token as string },
               },
             )
           : await axios.post<Partial<Bridge>>(url, bridgeData, {
-              headers: { "api-key": query.token as string },
+              headers: { "token": query.token as string },
             });
         if (response && response.status < 400) props.handleClose();
         else setTestingMessage({ text: "Failed to save bridge", error: true });
@@ -106,7 +106,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
         const response = await axios.get<System>(
           `http://${bridge.host}:${bridge.port}/api/data/system`,
           {
-            headers: { "api-key": bridge.token },
+            headers: { "token": bridge.token },
           },
         );
         if (response && response.status < 400) {

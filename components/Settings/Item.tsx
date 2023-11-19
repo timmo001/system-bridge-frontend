@@ -144,7 +144,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
                               sx={{ margin: theme.spacing(-1, -0.5) }}
                             >
                               <Icon
-                                id="generate-api-key"
+                                id="generate-token"
                                 title="Generate Token"
                                 size={1}
                                 path={mdiCached}

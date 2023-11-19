@@ -41,7 +41,7 @@ function BridgesOpenOnComponent(): ReactElement {
           : "localhost"
       }:${query.apiPort || 9170}/api/remote`,
       {
-        headers: { "api-key": query.token as string },
+        headers: { "token": query.token as string },
       },
     );
     if (response && response.status < 400) {
@@ -63,7 +63,7 @@ function BridgesOpenOnComponent(): ReactElement {
         const response = await axios.post<{ path: string }>(
           `http://${bridgeSelected.host}:${bridgeSelected.port}/api/open`,
           { [url.includes("://") ? "url" : "path"]: url },
-          { headers: { "api-key": bridgeSelected.token } },
+          { headers: { "token": bridgeSelected.token } },
         );
         if (response && response.status < 400) {
           console.log(response.data);
