@@ -12,33 +12,47 @@ import { cloneDeep } from "lodash";
 import { Event } from "assets/entities/event.entity";
 import { WebSocketConnection } from "components/Common/WebSocket";
 import DataItems from "components/Data/DataItems";
+import Icon from "@mdi/react";
+import {
+  mdiBattery,
+  mdiChip,
+  mdiCpu64Bit,
+  mdiDesktopTower,
+  mdiExpansionCard,
+  mdiHarddisk,
+  mdiMemory,
+  mdiMonitor,
+  mdiNetworkOutline,
+  mdiVideoVintage,
+  mdiWindowMaximize,
+} from "@mdi/js";
 
 const modules = [
   "battery",
   "cpu",
-  "disk",
-  "display",
-  "gpu",
+  "disks",
+  "displays",
+  "gpus",
   "media",
   "memory",
-  "network",
+  "networks",
   "processes",
   "sensors",
   "system",
 ];
 
-const moduleMap: { [key: string]: string } = {
-  battery: "Battery",
-  cpu: "CPU",
-  disk: "Disk",
-  display: "Display",
-  gpu: "GPU",
-  media: "Media",
-  memory: "Memory",
-  network: "Network",
-  processes: "Processes",
-  sensors: "Sensors",
-  system: "System",
+const moduleMap: { [key: string]: { name: string; icon: string } } = {
+  battery: { name: "Battery", icon: mdiBattery },
+  cpu: { name: "CPU", icon: mdiCpu64Bit },
+  disks: { name: "Disks", icon: mdiHarddisk },
+  displays: { name: "Displays", icon: mdiMonitor },
+  gpus: { name: "GPUs", icon: mdiExpansionCard },
+  media: { name: "Media", icon: mdiVideoVintage },
+  memory: { name: "Memory", icon: mdiMemory },
+  networks: { name: "Networks", icon: mdiNetworkOutline },
+  processes: { name: "Processes", icon: mdiWindowMaximize },
+  sensors: { name: "Sensors", icon: mdiChip },
+  system: { name: "System", icon: mdiDesktopTower },
 };
 
 interface DataMap {
@@ -48,10 +62,12 @@ interface DataMap {
 const initialDataMap: DataMap = {
   battery: {},
   cpu: {},
-  disk: {},
+  disks: {},
+  displays: {},
+  gpus: {},
   media: {},
   memory: {},
-  network: {},
+  networks: {},
   processes: {},
   sensors: {},
   system: {},
@@ -73,7 +89,7 @@ function DataComponent(): ReactElement {
 
   const handleChangeTab = (
     _event: React.ChangeEvent<any>,
-    newValue: number,
+    newValue: number
   ) => {
     setTab(newValue);
   };
@@ -99,7 +115,7 @@ function DataComponent(): ReactElement {
       });
       ws.onEvent = eventHandler;
     },
-    [eventHandler],
+    [eventHandler]
   );
 
   useEffect(() => {
@@ -113,6 +129,24 @@ function DataComponent(): ReactElement {
 
   return (
     <>
+      <Tabs
+        value={tab}
+        onChange={handleChangeTab}
+        variant="scrollable"
+        scrollButtons="auto"
+        aria-label="scrollable auto tabs"
+        sx={{ padding: theme.spacing(2) }}
+      >
+        {modules.map((module: string, index: number) => (
+          <Tab
+            key={index}
+            label={moduleMap[module].name}
+            icon={<Icon path={moduleMap[module].icon} size={1} />}
+            {...a11yProps(index)}
+            sx={{ minWidth: "auto" }}
+          />
+        ))}
+      </Tabs>
       <Grid
         container
         direction="column"
@@ -120,47 +154,32 @@ function DataComponent(): ReactElement {
         alignItems="stretch"
         sx={{ padding: theme.spacing(2) }}
       >
-        <Grid container direction="row" item xs>
-          <Grid item>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={tab}
-              onChange={handleChangeTab}
-            >
-              {modules.map((module: string, index: number) => (
-                <Tab
-                  key={index}
-                  label={moduleMap[module]}
-                  {...a11yProps(index)}
-                />
-              ))}
-            </Tabs>
-          </Grid>
-          <Grid item xs>
-            {modules.map((module: string, index: number) => (
-              <Fragment key={index}>
-                {tab === index ? (
-                  <>
-                    {data[module] ? (
-                      <DataItems data={data[module]} name={moduleMap[module]} />
-                    ) : (
-                      <Grid
-                        container
-                        direction="row"
-                        justifyContent="center"
-                        sx={{ margin: theme.spacing(8, 0, 14) }}
-                      >
-                        <CircularProgress />
-                      </Grid>
-                    )}
-                  </>
-                ) : (
-                  ""
-                )}
-              </Fragment>
-            ))}
-          </Grid>
+        <Grid item xs>
+          {modules.map((module: string, index: number) => (
+            <Fragment key={index}>
+              {tab === index ? (
+                <>
+                  {data[module] ? (
+                    <DataItems
+                      data={data[module]}
+                      name={moduleMap[module].name}
+                    />
+                  ) : (
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      sx={{ margin: theme.spacing(8, 0, 14) }}
+                    >
+                      <CircularProgress />
+                    </Grid>
+                  )}
+                </>
+              ) : (
+                ""
+              )}
+            </Fragment>
+          ))}
         </Grid>
       </Grid>
     </>

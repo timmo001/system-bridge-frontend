@@ -32,7 +32,7 @@ export class WebSocketConnection {
     const ws = new WebSocket(
       `ws://${window.location.hostname || "localhost"}:${
         this.port
-      }/api/websocket`,
+      }/api/websocket`
     );
     await new Promise<void>((resolve) => {
       ws.onopen = () => resolve();
@@ -57,8 +57,10 @@ export class WebSocketConnection {
         JSON.stringify({
           token: this.token,
           event: "GET_DATA",
-          modules: modules,
-        }),
+          data: {
+            modules: modules,
+          },
+        })
       );
     }
   }
@@ -70,7 +72,7 @@ export class WebSocketConnection {
         JSON.stringify({
           token: this.token,
           event: "GET_SETTINGS",
-        }),
+        })
       );
     }
   }
@@ -82,8 +84,10 @@ export class WebSocketConnection {
         JSON.stringify({
           token: this.token,
           event: "REGISTER_DATA_LISTENER",
-          modules: modules,
-        }),
+          data: {
+            modules: modules,
+          },
+        })
       );
     }
   }
@@ -94,8 +98,10 @@ export class WebSocketConnection {
         JSON.stringify({
           token: this.token,
           event: "MEDIA_STATUS",
-          status: status,
-        }),
+          data: {
+            status: status,
+          },
+        })
       );
     }
   }
@@ -107,9 +113,11 @@ export class WebSocketConnection {
         JSON.stringify({
           token: this.token,
           event: "UPDATE_SETTING",
-          setting: key,
-          value: value,
-        }),
+          data: {
+            setting: key,
+            value: value,
+          },
+        })
       );
     }
   }
