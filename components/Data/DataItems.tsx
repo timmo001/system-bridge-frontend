@@ -1,6 +1,11 @@
 import { ReactElement, useMemo } from "react";
 import { CardContent, CircularProgress, Grid, Typography } from "@mui/material";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowsProp,
+  GridToolbar,
+} from "@mui/x-data-grid";
 
 import { type GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { type Modules } from "types/models";
@@ -96,9 +101,11 @@ export default function DataItemsComponent({
             <DataGrid
               autoHeight
               columns={defaultColumns}
+              disableRowSelectionOnClick
               initialState={defaultInitialState}
               pageSizeOptions={defaultPageSizeOptions}
               rows={dataRoot}
+              slots={{ toolbar: GridToolbar }}
               sx={{ mb: 2 }}
             />
           )}
@@ -113,9 +120,11 @@ export default function DataItemsComponent({
                 <DataGrid
                   autoHeight
                   columns={defaultColumns}
+                  disableRowSelectionOnClick
                   initialState={defaultInitialState}
                   pageSizeOptions={defaultPageSizeOptions}
                   rows={value}
+                  slots={{ toolbar: GridToolbar }}
                   sx={{ mb: 2 }}
                 />
               </>
@@ -132,9 +141,11 @@ export default function DataItemsComponent({
                 <DataGrid
                   autoHeight
                   columns={defaultColumns}
+                  disableRowSelectionOnClick
                   initialState={defaultInitialState}
                   pageSizeOptions={defaultPageSizeOptions}
                   rows={value}
+                  slots={{ toolbar: GridToolbar }}
                   sx={{ mb: 2 }}
                 />
               </>
