@@ -26,7 +26,7 @@ function Layout(props: LayoutProps): ReactElement {
     if (typeof window !== "undefined" && router.isReady && !queryChecked) {
       queryChecked = true;
       let newToken: string | null = (router.query?.token as string) || "",
-        newApiPort: string | null = (router.query?.apiPort as string) || "9170",
+        newApiPort: string | null = (router.query?.apiPort as string) || "9174",
         needUpdate = false;
       if (!router.query?.token) {
         needUpdate = true;
@@ -35,7 +35,7 @@ function Layout(props: LayoutProps): ReactElement {
       if (!router.query?.apiPort) {
         needUpdate = true;
         newApiPort = window.prompt(
-          "Please enter your API port (default: 9170)",
+          "Please enter your API port (default: 9174)",
           newApiPort,
         );
       }

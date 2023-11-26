@@ -58,7 +58,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
         query.apiHost || typeof window !== "undefined"
           ? window.location.hostname
           : "localhost"
-      }:${query.apiPort || 9170}/api/remote/${bridge.key}`,
+      }:${query.apiPort || 9174}/api/remote/${bridge.key}`,
       { headers: { "token": query.token as string } },
     );
     if (response && response.status < 400) props.handleClose();
@@ -76,7 +76,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
         query.apiHost || typeof window !== "undefined"
           ? window.location.hostname
           : "localhost"
-      }:${query.apiPort || 9170}/api/remote`;
+      }:${query.apiPort || 9174}/api/remote`;
       console.log("Save:", { url, bridgeData });
       let response: AxiosResponse<Partial<Bridge>, any>;
       try {
@@ -174,7 +174,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
           label="Port"
           onChange={handleTextChanged("port")}
           type="number"
-          value={bridge.port || 9170}
+          value={bridge.port || 9174}
           variant="outlined"
           sx={{ margin: theme.spacing(1, 0) }}
         />

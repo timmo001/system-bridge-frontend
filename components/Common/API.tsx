@@ -13,7 +13,7 @@ export class API {
 
   constructor(port: number, token: string) {
     this.token = token;
-    this.port = port || 9170;
+    this.port = port || 9174;
   }
 
   async request<T = any>({

@@ -25,7 +25,7 @@ function PageNotification(): ReactElement {
     console.log("Action clicked:", action);
     switch (action.command) {
       case "api":
-        new API(Number(apiPort) || 9170, String(token))
+        new API(Number(apiPort) || 9174, String(token))
           .request(action.data as APIRequest)
           .then((response) => {
             console.log("API Response:", response.data);
