@@ -8,70 +8,18 @@ import {
 import { useRouter } from "next/router";
 import { CircularProgress, Grid, Tab, Tabs, useTheme } from "@mui/material";
 import { cloneDeep } from "lodash";
+import Icon from "@mdi/react";
 
-import { Event } from "assets/entities/event.entity";
+import {
+  type ModuleData,
+  type Modules,
+  Module,
+  moduleMap,
+  modules,
+} from "types/models";
+import { type WebSocketResponse } from "types/websocket";
 import { WebSocketConnection } from "components/Common/WebSocket";
 import DataItems from "components/Data/DataItems";
-import Icon from "@mdi/react";
-import {
-  mdiBattery,
-  mdiChip,
-  mdiCpu64Bit,
-  mdiDesktopTower,
-  mdiExpansionCard,
-  mdiHarddisk,
-  mdiMemory,
-  mdiMonitor,
-  mdiNetworkOutline,
-  mdiVideoVintage,
-  mdiWindowMaximize,
-} from "@mdi/js";
-
-const modules = [
-  "battery",
-  "cpu",
-  "disks",
-  "displays",
-  "gpus",
-  "media",
-  "memory",
-  "networks",
-  "processes",
-  "sensors",
-  "system",
-];
-
-const moduleMap: { [key: string]: { name: string; icon: string } } = {
-  battery: { name: "Battery", icon: mdiBattery },
-  cpu: { name: "CPU", icon: mdiCpu64Bit },
-  disks: { name: "Disks", icon: mdiHarddisk },
-  displays: { name: "Displays", icon: mdiMonitor },
-  gpus: { name: "GPUs", icon: mdiExpansionCard },
-  media: { name: "Media", icon: mdiVideoVintage },
-  memory: { name: "Memory", icon: mdiMemory },
-  networks: { name: "Networks", icon: mdiNetworkOutline },
-  processes: { name: "Processes", icon: mdiWindowMaximize },
-  sensors: { name: "Sensors", icon: mdiChip },
-  system: { name: "System", icon: mdiDesktopTower },
-};
-
-interface DataMap {
-  [key: string]: { [key: string]: any };
-}
-
-const initialDataMap: DataMap = {
-  battery: {},
-  cpu: {},
-  disks: {},
-  displays: {},
-  gpus: {},
-  media: {},
-  memory: {},
-  networks: {},
-  processes: {},
-  sensors: {},
-  system: {},
-};
 
 function a11yProps(index: any) {
   return {
@@ -81,7 +29,7 @@ function a11yProps(index: any) {
 }
 
 function DataComponent(): ReactElement {
-  const [data, setData] = useState<DataMap>(initialDataMap);
+  const [data, setData] = useState<ModuleData>({});
   const [setup, setSetup] = useState<boolean>(false);
   const [tab, setTab] = useState<number>(0);
 
@@ -94,13 +42,18 @@ function DataComponent(): ReactElement {
     setTab(newValue);
   };
 
-  const eventHandler = useCallback((event: Event) => {
+  const eventHandler = useCallback((event: WebSocketResponse) => {
     console.log("Event:", event);
     if (event.type === "DATA_UPDATE") {
       console.log("Data update:", event.module, event.data);
-      setData((oldData: DataMap) => {
+      setData((oldData: ModuleData) => {
         const newData = cloneDeep(oldData);
-        if (typeof event.module == "string") newData[event.module] = event.data;
+        if (Array.isArray(event.data)) {
+          // Handle the case where event.data is an array
+        } else if (typeof event.data === "object") {
+          // Handle the case where event.data is an object
+          newData[event.module as Module] = event.data as Modules;
+        }
         return newData;
       });
     }
@@ -113,7 +66,7 @@ function DataComponent(): ReactElement {
         ws.getData(modules);
         ws.registerDataListener(modules);
       });
-      ws.onEvent = eventHandler;
+      ws.onEvent = (e: Event) => eventHandler(e as WebSocketResponse);
     },
     [eventHandler]
   );
@@ -159,9 +112,9 @@ function DataComponent(): ReactElement {
             <Fragment key={index}>
               {tab === index ? (
                 <>
-                  {data[module] ? (
+                  {data[module as Module] ? (
                     <DataItems
-                      data={data[module]}
+                      data={data[module as Module]}
                       name={moduleMap[module].name}
                     />
                   ) : (

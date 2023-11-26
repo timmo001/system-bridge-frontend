@@ -48,7 +48,6 @@ function DataItemsComponent({
                 <TableRow>
                   <TableCell>Key</TableCell>
                   <TableCell>Value</TableCell>
-                  <TableCell>Last Updated</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -59,11 +58,6 @@ function DataItemsComponent({
                       <TableRow key={index}>
                         <TableCell>{key}</TableCell>
                         <TableCell>{String(value)}</TableCell>
-                        <TableCell>
-                          {new Date(
-                            lastUpdated?.[1][key] * 1000
-                          ).toLocaleString()}
-                        </TableCell>
                       </TableRow>
                     )
                 )}

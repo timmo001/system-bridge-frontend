@@ -9,7 +9,7 @@ import {
   mdiTextBoxOutline,
 } from "@mdi/js";
 
-import { Event } from "assets/entities/event.entity";
+import { Event } from "types/event";
 import { SettingsObject, SettingsValue } from "assets/entities/settings.entity";
 import { useSettings } from "components/Contexts/Settings";
 import { WebSocketConnection } from "components/Common/WebSocket";

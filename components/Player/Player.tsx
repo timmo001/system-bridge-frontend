@@ -8,7 +8,7 @@ import React, {
 import { useRouter } from "next/dist/client/router";
 import { cloneDeep, isEqual } from "lodash";
 
-import { Event } from "assets/entities/event.entity";
+import { Event } from "types/event";
 import { PlayerStatus, usePlayer } from "./Utils";
 import { usePrevious } from "../Common/Utils";
 import { WebSocketConnection } from "components/Common/WebSocket";

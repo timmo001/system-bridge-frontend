@@ -1,8 +1,6 @@
 import { v4 as uuid } from "uuid";
 
-import { SettingsValue } from "assets/entities/settings.entity";
 import { PlayerStatus } from "components/Player/Utils";
-import { Event } from "../../assets/entities/event.entity";
 
 export class WebSocketConnection {
   public onEvent?: (event: Event) => void;
