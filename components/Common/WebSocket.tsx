@@ -1,3 +1,5 @@
+import { v4 as uuid } from "uuid";
+
 import { SettingsValue } from "assets/entities/settings.entity";
 import { PlayerStatus } from "components/Player/Utils";
 import { Event } from "../../assets/entities/event.entity";
@@ -55,6 +57,7 @@ export class WebSocketConnection {
       console.log("Get data:", modules);
       this.websocket.send(
         JSON.stringify({
+          id: uuid(),
           token: this.token,
           event: "GET_DATA",
           data: {
@@ -70,6 +73,7 @@ export class WebSocketConnection {
       console.log("Get settings");
       this.websocket.send(
         JSON.stringify({
+          id: uuid(),
           token: this.token,
           event: "GET_SETTINGS",
         })
@@ -82,6 +86,7 @@ export class WebSocketConnection {
       console.log("Register data listener:", modules);
       this.websocket.send(
         JSON.stringify({
+          id: uuid(),
           token: this.token,
           event: "REGISTER_DATA_LISTENER",
           data: {
@@ -96,6 +101,7 @@ export class WebSocketConnection {
     if (this.websocket && this.websocket.readyState === this.websocket.OPEN) {
       this.websocket.send(
         JSON.stringify({
+          id: uuid(),
           token: this.token,
           event: "MEDIA_STATUS",
           data: {
@@ -111,6 +117,7 @@ export class WebSocketConnection {
       console.log("Update setting:", { key, value });
       this.websocket.send(
         JSON.stringify({
+          id: uuid(),
           token: this.token,
           event: "UPDATE_SETTING",
           data: {
