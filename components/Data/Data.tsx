@@ -44,15 +44,13 @@ function DataComponent(): ReactElement {
   };
 
   const eventHandler = useCallback((event: WebSocketResponse) => {
-    console.log("Event:", event);
-    if (event.type === "DATA_UPDATE") {
-      console.log("Data update:", event.module, event.data);
+    console.log("New event:", event);
+    if (event.type === "DATA_UPDATE")
       setData((oldData: ModuleData) => {
         const newData = cloneDeep(oldData);
         newData[event.module as Module] = event.data as Modules;
         return newData;
       });
-    }
   }, []);
 
   const handleSetup = useCallback(
@@ -74,8 +72,9 @@ function DataComponent(): ReactElement {
     }
   }, [setup, handleSetup, query]);
 
-  const theme = useTheme();
+  console.log("Data:", data);
 
+  const theme = useTheme();
   return (
     <>
       <Tabs
@@ -88,19 +87,19 @@ function DataComponent(): ReactElement {
       >
         {modules.map((module: string, index: number) => (
           <Tab
+            {...a11yProps(index)}
+            icon={<Icon path={moduleMap[module].icon} size={1} />}
             key={index}
             label={moduleMap[module].name}
-            icon={<Icon path={moduleMap[module].icon} size={1} />}
-            {...a11yProps(index)}
             sx={{ minWidth: "auto" }}
           />
         ))}
       </Tabs>
       <Grid
         container
+        alignItems="stretch"
         direction="column"
         spacing={2}
-        alignItems="stretch"
         sx={{ padding: theme.spacing(2) }}
       >
         <Grid item xs>

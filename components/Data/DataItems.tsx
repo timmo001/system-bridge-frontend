@@ -44,7 +44,9 @@ export default function DataItemsComponent({
     if (!data) return [];
     const dataGridData = [];
     for (const [key, value] of Object.entries(data)) {
-      if (Array.isArray(value) || typeof value === "object") continue;
+      console.log(key, typeof value);
+      if (value ? Array.isArray(value) || typeof value === "object" : false)
+        continue;
       dataGridData.push({ id: key, key, value });
     }
     return dataGridData;
@@ -89,6 +91,8 @@ export default function DataItemsComponent({
     }
     return dataGridData;
   }, [data]);
+
+  console.log({ dataRoot, dataArrays, dataObjects });
 
   return (
     <>
