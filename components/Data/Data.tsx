@@ -49,12 +49,7 @@ function DataComponent(): ReactElement {
       console.log("Data update:", event.module, event.data);
       setData((oldData: ModuleData) => {
         const newData = cloneDeep(oldData);
-        if (Array.isArray(event.data)) {
-          // Handle the case where event.data is an array
-        } else if (typeof event.data === "object") {
-          // Handle the case where event.data is an object
-          newData[event.module as Module] = event.data as Modules;
-        }
+        newData[event.module as Module] = event.data as Modules;
         return newData;
       });
     }
