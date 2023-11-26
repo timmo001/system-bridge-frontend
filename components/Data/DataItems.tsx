@@ -65,6 +65,26 @@ export default function DataItemsComponent({
     return dataGridData;
   }, [data]);
 
+  const dataObjects = useMemo<Array<Record<string, GridRowsProp>>>(() => {
+    if (!data) return [];
+    const dataGridData = [];
+    for (const [key, value] of Object.entries(data)) {
+      if (!value || typeof value !== "object") continue;
+      const dataGridDataArray = [];
+      for (const [innerKey, innerValue] of Object.entries(value)) {
+        if (Array.isArray(innerValue) || typeof innerValue === "object")
+          continue;
+        dataGridDataArray.push({
+          id: innerKey,
+          key: innerKey,
+          value: innerValue,
+        });
+      }
+      dataGridData.push({ [key]: dataGridDataArray });
+    }
+    return dataGridData;
+  }, [data]);
+
   return (
     <>
       <Typography gutterBottom variant="h4" component="h3">
@@ -79,6 +99,7 @@ export default function DataItemsComponent({
               initialState={defaultInitialState}
               pageSizeOptions={defaultPageSizeOptions}
               rows={dataRoot}
+              sx={{ mb: 2 }}
             />
           )}
           {dataArrays.map((dataArray) => {
@@ -95,6 +116,26 @@ export default function DataItemsComponent({
                   initialState={defaultInitialState}
                   pageSizeOptions={defaultPageSizeOptions}
                   rows={value}
+                  sx={{ mb: 2 }}
+                />
+              </>
+            );
+          })}
+          {dataObjects.map((dataObject) => {
+            const key = Object.keys(dataObject)[0];
+            const value = dataObject[key];
+            return (
+              <>
+                <Typography gutterBottom variant="h5" component="h4">
+                  {key}
+                </Typography>
+                <DataGrid
+                  autoHeight
+                  columns={defaultColumns}
+                  initialState={defaultInitialState}
+                  pageSizeOptions={defaultPageSizeOptions}
+                  rows={value}
+                  sx={{ mb: 2 }}
                 />
               </>
             );
