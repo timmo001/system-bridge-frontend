@@ -44,7 +44,6 @@ export default function DataItemsComponent({
     if (!data) return [];
     const dataGridData = [];
     for (const [key, value] of Object.entries(data)) {
-      console.log(key, typeof value);
       if (value ? Array.isArray(value) || typeof value === "object" : false)
         continue;
       dataGridData.push({ id: key, key, value });
