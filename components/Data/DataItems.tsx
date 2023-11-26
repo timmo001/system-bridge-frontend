@@ -44,9 +44,9 @@ export default function DataItemsComponent({
     if (!data) return [];
     const dataGridData = [];
     for (const [key, value] of Object.entries(data)) {
-      if (value ? Array.isArray(value) || typeof value === "object" : false)
+      if (!value ? false : Array.isArray(value) || typeof value === "object")
         continue;
-      dataGridData.push({ id: key, key, value });
+      dataGridData.push({ id: key, key, value: String(value) });
     }
     return dataGridData;
   }, [data]);
@@ -63,7 +63,7 @@ export default function DataItemsComponent({
         dataGridDataArray.push({
           id: innerKey,
           key: innerKey,
-          value: innerValue,
+          value: String(innerValue),
         });
       }
       dataGridData.push({ [key]: dataGridDataArray });
@@ -75,15 +75,19 @@ export default function DataItemsComponent({
     if (!data) return [];
     const dataGridData = [];
     for (const [key, value] of Object.entries(data)) {
-      if (!value || typeof value !== "object") continue;
+      if (!value || Array.isArray(value) || typeof value !== "object") continue;
       const dataGridDataArray = [];
       for (const [innerKey, innerValue] of Object.entries(value)) {
-        if (Array.isArray(innerValue) || typeof innerValue === "object")
+        if (
+          !innerValue
+            ? false
+            : Array.isArray(innerValue) || typeof innerValue === "object"
+        )
           continue;
         dataGridDataArray.push({
           id: innerKey,
           key: innerKey,
-          value: innerValue,
+          value: String(innerValue),
         });
       }
       dataGridData.push({ [key]: dataGridDataArray });
@@ -116,7 +120,7 @@ export default function DataItemsComponent({
             const key = Object.keys(dataArray)[0];
             const value = dataArray[key];
             return (
-              <>
+              <section key={key}>
                 <Typography gutterBottom variant="h5" component="h4">
                   {key}
                 </Typography>
@@ -130,14 +134,14 @@ export default function DataItemsComponent({
                   slots={{ toolbar: GridToolbar }}
                   sx={{ mb: 2 }}
                 />
-              </>
+              </section>
             );
           })}
-          {dataObjects.map((dataObject) => {
+          {dataObjects.map((dataObject: Record<string, GridRowsProp>) => {
             const key = Object.keys(dataObject)[0];
             const value = dataObject[key];
             return (
-              <>
+              <section key={key}>
                 <Typography gutterBottom variant="h5" component="h4">
                   {key}
                 </Typography>
@@ -151,7 +155,7 @@ export default function DataItemsComponent({
                   slots={{ toolbar: GridToolbar }}
                   sx={{ mb: 2 }}
                 />
-              </>
+              </section>
             );
           })}
         </>
