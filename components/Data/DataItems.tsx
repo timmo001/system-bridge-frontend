@@ -1,77 +1,65 @@
 import { ReactElement, useMemo } from "react";
-import {
-  CardContent,
-  CircularProgress,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { CardContent, CircularProgress, Grid, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-function DataItemsComponent({
-  name,
+import { type GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+import { type Modules } from "types/models";
+
+const defaultColumns: GridColDef[] = [
+  { field: "key", headerName: "Name", width: 240 },
+  { field: "value", headerName: "Value", width: 480 },
+];
+
+const defaultInitialState: GridInitialStateCommunity = {
+  sorting: {
+    sortModel: [
+      {
+        field: "key",
+        sort: "asc",
+      },
+    ],
+  },
+  pagination: {
+    paginationModel: {
+      pageSize: 40,
+    },
+  },
+};
+
+export default function DataItemsComponent({
+  title,
   data,
 }: {
-  name: string;
-  data: any;
+  title: string;
+  data?: Modules;
 }): ReactElement {
-  const dataMap = useMemo<Array<[string, any]>>(
-    () =>
-      Object.entries(data).sort(
-        ([keyA]: [string, any], [keyB]: [string, any]) =>
-          keyA.localeCompare(keyB)
-      ),
-    [data]
-  );
-
-  const lastUpdated = dataMap.find(
-    ([key, value]: [string, any]) =>
-      key === "last_updated" && typeof value === "object"
-  );
+  const rootData = useMemo(() => {
+    if (!data) return [];
+    const dataGridData = [];
+    for (const [key, value] of Object.entries(data)) {
+      if (Array.isArray(value) || typeof value === "object") continue;
+      dataGridData.push({ id: key, key, value });
+    }
+    return dataGridData;
+  }, [data]);
 
   return (
-    <CardContent>
+    <>
       <Typography gutterBottom variant="h4" component="h3">
-        {name}
+        {title}
       </Typography>
       {data ? (
-        <>
-          {/* Show data as table */}
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Key</TableCell>
-                  <TableCell>Value</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataMap.map(
-                  ([key, value]: [string, any], index: number) =>
-                    key !== "last_updated" &&
-                    typeof value !== "object" && (
-                      <TableRow key={index}>
-                        <TableCell>{key}</TableCell>
-                        <TableCell>{String(value)}</TableCell>
-                      </TableRow>
-                    )
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
+        <DataGrid
+          columns={defaultColumns}
+          initialState={defaultInitialState}
+          pageSizeOptions={[10, 20, 40, 50, 100, 200]}
+          rows={rootData}
+        />
       ) : (
         <Grid container direction="row" justifyContent="center">
           <CircularProgress />
         </Grid>
       )}
-    </CardContent>
+    </>
   );
 }
-
-export default DataItemsComponent;

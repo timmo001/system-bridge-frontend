@@ -3,6 +3,7 @@ import {
   ReactElement,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useRouter } from "next/router";
@@ -114,8 +115,8 @@ function DataComponent(): ReactElement {
                 <>
                   {data[module as Module] ? (
                     <DataItems
-                      data={data[module as Module]}
-                      name={moduleMap[module].name}
+                      title={moduleMap[module].name}
+                      data={data[module as Module] as Modules}
                     />
                   ) : (
                     <Grid
