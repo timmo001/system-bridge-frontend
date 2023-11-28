@@ -1,5 +1,6 @@
 import { v4 as uuid } from "uuid";
 
+import { type Settings } from "types/settings";
 import { PlayerStatus } from "components/Player/Utils";
 
 export class WebSocketConnection {
@@ -74,6 +75,7 @@ export class WebSocketConnection {
           id: uuid(),
           token: this.token,
           event: "GET_SETTINGS",
+          data: {},
         })
       );
     }
@@ -110,18 +112,15 @@ export class WebSocketConnection {
     }
   }
 
-  updateSetting(key: string, value: SettingsValue): void {
+  updateSettings(newSettings: Settings): void {
     if (this.websocket && this.websocket.readyState === this.websocket.OPEN) {
-      console.log("Update setting:", { key, value });
+      console.log("Update setting:", newSettings);
       this.websocket.send(
         JSON.stringify({
           id: uuid(),
           token: this.token,
-          event: "UPDATE_SETTING",
-          data: {
-            setting: key,
-            value: value,
-          },
+          event: "UPDATE_SETTINGS",
+          data: newSettings,
         })
       );
     }

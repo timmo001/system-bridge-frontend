@@ -26,18 +26,18 @@ import {
 } from "@mdi/js";
 
 import { handleCopyToClipboard } from "components/Common/Utils";
-import { NameValue } from "assets/entities/types.entity";
 import { SettingDescription, settingsMap } from "components/Settings/Settings";
-import { SettingsValue } from "assets/entities/settings.entity";
 import ItemList from "components/Settings/ItemList";
 
-interface ItemProps {
+function Item({
+  keyIn,
+  valueIn,
+  handleChanged,
+}: {
   keyIn: string;
-  valueIn: SettingsValue;
+  valueIn: any;
   handleChanged: (key: string, value: SettingsValue) => void;
-}
-
-function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
+}): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [value, setValue] = useState<SettingsValue>(valueIn);
@@ -52,7 +52,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
 
   function handleCheckedChanged(
     _event: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
+    checked: boolean
   ): void {
     handleSetSetting(checked);
   }
@@ -70,7 +70,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
   }
 
   function handleMouseDownPassword(
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ): void {
     event.preventDefault();
   }
