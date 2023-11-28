@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { CircularProgress, Grid, Typography } from "@mui/material";
+import { type CollapsedFieldProps } from "react-json-view";
 import dynamic from "next/dynamic";
 
 import { type Modules } from "types/models";
@@ -29,7 +30,15 @@ export default function DataItemsComponent({
             enableClipboard
             name={null}
             collapseStringsAfterLength={140}
-            shouldCollapse={(field) => field.type === "array"}
+            shouldCollapse={(field: CollapsedFieldProps): boolean => {
+              console.log(field);
+              return field.name &&
+                field.type === "array" &&
+                Array.isArray(field.src) &&
+                field.src.length > 2
+                ? true
+                : false;
+            }}
             style={{ background: "initial", maxWidth: "100%" }}
             theme="google"
           />
