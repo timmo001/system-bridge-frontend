@@ -13,12 +13,12 @@ import {
 import { useRouter } from "next/router";
 import axios, { AxiosResponse } from "axios";
 
-import { Bridge } from "../../assets/entities/bridge.entity";
-import { System } from "assets/entities/system.entity";
+// import { Bridge } from "../../assets/entities/bridge.entity";
+// import { System } from "assets/entities/system.entity";
 
 export interface EditBridge {
   edit: boolean;
-  bridge: Partial<Bridge>;
+  bridge: Partial</*Bridge*/ any>;
 }
 
 interface TestingMessage {
@@ -32,8 +32,8 @@ interface BridgeEditProps {
 }
 
 function BridgeEditComponent(props: BridgeEditProps): ReactElement {
-  const [bridge, setBridge] = useState<Partial<Bridge>>(
-    props.bridgeEdit.bridge,
+  const [bridge, setBridge] = useState<Partial</*Bridge*/ any>>(
+    props.bridgeEdit.bridge
   );
   const [testingMessage, setTestingMessage] = useState<TestingMessage>({
     text: "",
@@ -59,7 +59,7 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
           ? window.location.hostname
           : "localhost"
       }:${query.apiPort || 9174}/api/remote/${bridge.key}`,
-      { headers: { "token": query.token as string } },
+      { headers: { token: query.token as string } }
     );
     if (response && response.status < 400) props.handleClose();
     else setTestingMessage({ text: "Failed to delete bridge", error: true });
@@ -78,18 +78,18 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
           : "localhost"
       }:${query.apiPort || 9174}/api/remote`;
       console.log("Save:", { url, bridgeData });
-      let response: AxiosResponse<Partial<Bridge>, any>;
+      let response: AxiosResponse<Partial</*Bridge*/ any>, any>;
       try {
         response = props.bridgeEdit.edit
-          ? await axios.put<Partial<Bridge>>(
+          ? await axios.put<Partial</*Bridge*/ any>>(
               `${url}/${bridge.key}`,
               bridgeData,
               {
-                headers: { "token": query.token as string },
-              },
+                headers: { token: query.token as string },
+              }
             )
-          : await axios.post<Partial<Bridge>>(url, bridgeData, {
-              headers: { "token": query.token as string },
+          : await axios.post<Partial</*Bridge*/ any>>(url, bridgeData, {
+              headers: { token: query.token as string },
             });
         if (response && response.status < 400) props.handleClose();
         else setTestingMessage({ text: "Failed to save bridge", error: true });
@@ -99,15 +99,15 @@ function BridgeEditComponent(props: BridgeEditProps): ReactElement {
     }
   }
 
-  async function handleTestBridge(): Promise<System | null> {
+  async function handleTestBridge(): Promise</*System*/ any | null> {
     setTestingMessage({ text: "Testing bridge..", error: false });
     if (bridge?.token)
       try {
-        const response = await axios.get<System>(
+        const response = await axios.get</*System*/ any>(
           `http://${bridge.host}:${bridge.port}/api/data/system`,
           {
-            headers: { "token": bridge.token },
-          },
+            headers: { token: bridge.token },
+          }
         );
         if (response && response.status < 400) {
           console.log("System:", response.data);

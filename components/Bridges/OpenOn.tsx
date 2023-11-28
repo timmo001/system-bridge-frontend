@@ -19,34 +19,35 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-import { Bridge } from "../../assets/entities/bridge.entity";
-import { Response } from "../../assets/entities/response.entity";
+// import { Bridge } from "../../assets/entities/bridge.entity";
+// import { Response } from "../../assets/entities/response.entity";
 import { useSettings } from "../Contexts/Settings";
 
 function BridgesOpenOnComponent(): ReactElement {
   const query = useRouter().query;
 
-  const [bridges, setBridges] = useState<Array<Bridge>>();
-  const [bridgeSelected, setBridgeSelected] = useState<Bridge>();
+  const [bridges, setBridges] = useState<Array<any>>();
+  const [bridgeSelected, setBridgeSelected] = useState</*Bridge*/ any>();
   const [settings] = useSettings();
   const [setup, setSetup] = useState<boolean>(false);
   const [url, setUrl] = useState<string>("");
 
   const handleSetup = useCallback(async () => {
     setUrl((query.url as string) || "");
-    const response = await axios.get<Response<Array<Bridge>>>(
+    // const response = await axios.get<Response<Array</*Bridge*/ any>>>(
+    const response = await axios.get<any>(
       `http://${
         query.apiHost || typeof window !== "undefined"
           ? window.location.hostname
           : "localhost"
       }:${query.apiPort || 9174}/api/remote`,
       {
-        headers: { "token": query.token as string },
-      },
+        headers: { token: query.token as string },
+      }
     );
     if (response && response.status < 400) {
       const newBridges = response.data.data.filter(
-        (bridge: Bridge) => bridge.token,
+        (bridge: /*Bridge*/ any) => bridge.token
       );
       setBridges(newBridges);
       setBridgeSelected(newBridges[0]);
@@ -63,7 +64,7 @@ function BridgesOpenOnComponent(): ReactElement {
         const response = await axios.post<{ path: string }>(
           `http://${bridgeSelected.host}:${bridgeSelected.port}/api/open`,
           { [url.includes("://") ? "url" : "path"]: url },
-          { headers: { "token": bridgeSelected.token } },
+          { headers: { token: bridgeSelected.token } }
         );
         if (response && response.status < 400) {
           console.log(response.data);
@@ -110,11 +111,11 @@ function BridgesOpenOnComponent(): ReactElement {
                 id="bridge"
                 options={bridges}
                 value={bridgeSelected}
-                getOptionLabel={(option: Bridge) => option.name}
+                getOptionLabel={(option: /*Bridge*/ any) => option.name}
                 renderInput={(params: AutocompleteRenderInputParams) => (
                   <TextField {...params} label="Bridge" variant="outlined" />
                 )}
-                onChange={(_event, value: Bridge | null) => {
+                onChange={(_event, value: /*Bridge*/ any | null) => {
                   if (value) setBridgeSelected(value);
                 }}
                 sx={{
