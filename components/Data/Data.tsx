@@ -7,7 +7,14 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/router";
-import { CircularProgress, Grid, Tab, Tabs, useTheme } from "@mui/material";
+import {
+  CircularProgress,
+  Grid,
+  Tab,
+  Tabs,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { cloneDeep } from "lodash";
 import Icon from "@mdi/react";
 
@@ -21,13 +28,6 @@ import {
 import { type WebSocketResponse } from "types/websocket";
 import { WebSocketConnection } from "components/Common/WebSocket";
 import DataItems from "components/Data/DataItems";
-
-function a11yProps(index: any) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    "aria-controls": `scrollable-auto-tabpanel-${index}`,
-  };
-}
 
 function DataComponent(): ReactElement {
   const [data, setData] = useState<ModuleData>({});
@@ -75,19 +75,20 @@ function DataComponent(): ReactElement {
   console.log("Data:", data);
 
   const theme = useTheme();
+  const mobileLayout = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <>
       <Tabs
-        value={tab}
+        allowScrollButtonsMobile
+        centered={mobileLayout ? false : true}
         onChange={handleChangeTab}
-        variant="scrollable"
         scrollButtons="auto"
-        aria-label="scrollable auto tabs"
-        sx={{ padding: theme.spacing(2) }}
+        variant={mobileLayout ? "scrollable" : "fullWidth"}
+        value={tab}
+        sx={{ marginBottom: theme.spacing(2) }}
       >
         {modules.map((module: string, index: number) => (
           <Tab
-            {...a11yProps(index)}
             icon={<Icon path={moduleMap[module].icon} size={1} />}
             key={index}
             label={moduleMap[module].name}

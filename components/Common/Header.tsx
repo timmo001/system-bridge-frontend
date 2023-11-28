@@ -1,25 +1,15 @@
-import React, {
-  cloneElement,
-  ReactElement,
-  useCallback,
-  useState,
-} from "react";
+import React, { cloneElement, ReactElement } from "react";
 import {
   AppBar,
   Box,
   Button,
   Container,
-  Drawer,
   Grid,
-  Hidden,
-  IconButton,
   Toolbar,
   Typography,
   useScrollTrigger,
   useTheme,
 } from "@mui/material";
-import { Icon } from "@mdi/react";
-import { mdiMenu } from "@mdi/js";
 
 interface ElevationScrollProps {
   children: ReactElement;
@@ -37,12 +27,6 @@ function ElevationScroll({ children }: ElevationScrollProps) {
 }
 
 function Header(): ReactElement {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = useCallback(() => {
-    setMobileOpen(!mobileOpen);
-  }, [mobileOpen]);
-
   const theme = useTheme();
 
   return (
@@ -84,7 +68,7 @@ function Header(): ReactElement {
               </Toolbar>
             </Container>
           </AppBar>
-          <Box sx={{ height: theme.spacing(18) }} />
+          <Box sx={{ height: theme.spacing(10) }} />
         </>
       </ElevationScroll>
     </>
