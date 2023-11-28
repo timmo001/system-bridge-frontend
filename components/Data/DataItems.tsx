@@ -24,12 +24,11 @@ export default function DataItemsComponent({
       {data ? (
         <>
           <BrowserReactJsonView
-            src={data}
-            displayDataTypes
+            collapseStringsAfterLength={120}
+            displayDataTypes={false}
             displayObjectSize
             enableClipboard
             name={null}
-            collapseStringsAfterLength={140}
             shouldCollapse={(field: CollapsedFieldProps): boolean => {
               console.log(field);
               return field.name &&
@@ -39,6 +38,7 @@ export default function DataItemsComponent({
                 ? true
                 : false;
             }}
+            src={data}
             style={{ background: "initial", maxWidth: "100%" }}
             theme="google"
           />
