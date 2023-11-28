@@ -24,12 +24,12 @@ export default function DataItemsComponent({
         <>
           <BrowserReactJsonView
             src={data}
-            displayDataTypes={false}
+            displayDataTypes
             displayObjectSize
             enableClipboard
-            iconStyle="triangle"
             name={null}
             collapseStringsAfterLength={140}
+            shouldCollapse={(field) => field.type === "array"}
             style={{ background: "initial", maxWidth: "100%" }}
             theme="google"
           />
