@@ -4,7 +4,7 @@ import { Grid, List, Paper, Typography } from "@mui/material";
 export interface SectionProps {
   name: string;
   description: string;
-  children: ReactElement;
+  children: Array<ReactElement> | ReactElement;
 }
 
 function Section({ name, description, children }: SectionProps): ReactElement {

@@ -36,13 +36,13 @@ function Item({
 }: {
   keyIn: string;
   valueIn: any;
-  handleChanged: (key: string, value: SettingsValue) => void;
+  handleChanged: (value: any) => void;
 }): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [value, setValue] = useState<SettingsValue>(valueIn);
+  const [value, setValue] = useState<any>(valueIn);
 
-  function handleSetSetting(valueIn: SettingsValue): void {
+  function handleSetSetting(valueIn: any): void {
     setValue(valueIn);
   }
 
@@ -118,8 +118,10 @@ function Item({
           {isList ? (
             ""
           ) : (
-            <ListItemSecondaryAction sx={{ width: 420, textAlign: "end" }}>
-              <Grid container alignItems="center" justifyContent="flex-end">
+            <ListItemSecondaryAction
+              sx={{ maxHeight: "100%", width: 420, textAlign: "end" }}
+            >
+              <Grid container alignItems="center" justifyContent="flex-end" wrap="nowrap">
                 <Grid item>
                   {typeof value === "boolean" ? (
                     <Switch
@@ -128,8 +130,14 @@ function Item({
                       checked={value}
                       onChange={handleCheckedChanged}
                     />
-                  ) : typeof valueIn === "string" && keyIn === "token" ? (
-                    <FormControl fullWidth variant="outlined">
+                  ) : typeof valueIn === "string" && keyIn === "api_token" ? (
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        minWidth: 420,
+                      }}
+                    >
                       <OutlinedInput
                         type="text"
                         disabled
@@ -239,7 +247,7 @@ function Item({
                   <IconButton
                     disabled={valueChanged === false}
                     onClick={() => {
-                      handleChanged(keyIn, value);
+                      handleChanged(value);
                     }}
                     sx={{ margin: theme.spacing(1) }}
                   >
@@ -262,12 +270,12 @@ function Item({
           <ItemList
             id={keyIn}
             setting={settingsMap[keyIn]}
-            listIn={value as unknown as Array<NameValue>}
+            listIn={value as Array<Record<string, any>>}
             open={open}
             setOpen={setOpen}
-            handleChanged={(newValue: Array<NameValue>) => {
+            handleChanged={(newValue: Array<Record<string, any>>) => {
               setValue(newValue);
-              handleChanged(keyIn, JSON.stringify(newValue));
+              handleChanged(JSON.stringify(newValue));
             }}
           />
         </>
