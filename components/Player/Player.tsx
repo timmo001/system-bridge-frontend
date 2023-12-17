@@ -8,7 +8,7 @@ import React, {
 import { useRouter } from "next/dist/client/router";
 import { cloneDeep, isEqual } from "lodash";
 
-import { Event } from "types/event";
+// import { WebSocketResponse } from "types/websocket";
 import { PlayerStatus, usePlayer } from "./Utils";
 import { usePrevious } from "../Common/Utils";
 import { WebSocketConnection } from "components/Common/WebSocket";
@@ -29,7 +29,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
   const query = router.query as NodeJS.Dict<string>;
 
   const eventHandler = useCallback(
-    (event: Event) => {
+    (event: any) => { // WebSocketResponse
       console.log("Event:", event);
       switch (event.type) {
         case "MEDIA_PAUSE":
@@ -64,7 +64,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
           break;
       }
     },
-    [playerStatus, setPlayerStatus],
+    [playerStatus, setPlayerStatus]
   );
 
   const handleSetupWebSocket = useCallback(
@@ -75,7 +75,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
       });
       websocket.onEvent = eventHandler;
     },
-    [eventHandler],
+    [eventHandler]
   );
 
   useEffect(() => {
@@ -146,7 +146,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
           "Player update\n\npreviousStatus:",
           previousStatus,
           "\nnewStatus:",
-          newStatus,
+          newStatus
         );
         if (!newStatus.loaded) return;
         if (!websocket) return;
