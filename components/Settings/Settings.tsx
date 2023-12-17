@@ -49,7 +49,7 @@ export const settingsMap: { [key: string]: SettingDescription } = {
     description: "Log level for the application",
     icon: mdiTextBoxOutline,
   },
-  additional_media_directories: {
+  directories: {
     name: "Additional Media Directories",
     description: "Additional media directories for the media endpoint",
     icon: mdiFolderMultipleOutline,
@@ -179,7 +179,7 @@ function Settings(): ReactElement {
             </Section>
             <Section name="Media" description="Media settings">
               <Item
-                keyIn="additional_media_directories"
+                keyIn="directories"
                 valueIn={settings.media.directories}
                 handleChanged={(value: Array<SettingDirectory>) =>
                   handleChanged({
