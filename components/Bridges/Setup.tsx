@@ -12,18 +12,18 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-import { Bridge } from "../../assets/entities/bridge.entity";
-import { Response } from "../../assets/entities/response.entity";
+// import { Bridge } from "../../assets/entities/bridge.entity";
+// import { Response } from "../../assets/entities/response.entity";
 import { useSettings } from "../Contexts/Settings";
 import BridgeEdit, { EditBridge } from "./Edit";
 
-const DEFAULT_BRIDGE: Partial<Bridge> = {
-  port: 9170,
+const DEFAULT_BRIDGE: Partial</*Bridge*/ any> = {
+  port: 9174,
 };
 
 function BridgesSetupComponent(): ReactElement {
   const [bridgeEdit, setBridgeEdit] = useState<EditBridge>();
-  const [bridges, setBridges] = useState<Array<Bridge>>();
+  const [bridges, setBridges] = useState<Array</*Bridge*/ any>>();
   const [settings] = useSettings();
   const [setup, setSetup] = useState<boolean>(false);
 
@@ -31,29 +31,33 @@ function BridgesSetupComponent(): ReactElement {
 
   const handleSetup = useCallback(async () => {
     console.log("Setup Bridges");
-    const response = await axios.get<Response<Array<Bridge>>>(
+    // const response = await axios.get<Response<Array</*Bridge*/ any>>>(
+    const response = await axios.get<any>(
       `http://${
         query.apiHost || typeof window !== "undefined"
           ? window.location.hostname
           : "localhost"
-      }:${query.apiPort || 9170}/api/remote`,
+      }:${query.apiPort || 9174}/api/remote`,
       {
-        headers: { "api-key": query.apiKey as string },
-      },
+        headers: { token: query.token as string },
+      }
     );
     if (response && response.status < 400) {
       setBridges(response.data.data);
     }
-  }, [query.apiHost, query.apiPort, query.apiKey]);
+  }, [query.apiHost, query.apiPort, query.token]);
 
   useEffect(() => {
-    if (!setup && query && query.apiKey) {
+    if (!setup && query && query.token) {
       setSetup(true);
       handleSetup();
     }
   }, [setup, handleSetup, query]);
 
-  function handleItemClick(bridge: Partial<Bridge>, edit: boolean): void {
+  function handleItemClick(
+    bridge: Partial</*Bridge*/ any>,
+    edit: boolean
+  ): void {
     setBridgeEdit({ bridge: bridge, edit: edit });
   }
 
@@ -90,7 +94,7 @@ function BridgesSetupComponent(): ReactElement {
             </Typography>
             {bridges ? (
               <List>
-                {bridges.map((bridge: Bridge) => (
+                {bridges.map((bridge: /*Bridge*/ any) => (
                   <ListItem
                     key={bridge.key}
                     button
@@ -98,10 +102,10 @@ function BridgesSetupComponent(): ReactElement {
                   >
                     <ListItemText
                       primary={`${bridge.name} ${
-                        bridge.api_key ? "" : "(Not Configured)"
+                        bridge.token ? "" : "(Not Configured)"
                       }`}
                       secondary={`${bridge.host}:${bridge.port}`}
-                      color={bridge.api_key ? "primary" : "error"}
+                      color={bridge.token ? "primary" : "error"}
                     />
                   </ListItem>
                 ))}

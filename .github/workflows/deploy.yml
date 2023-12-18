@@ -13,7 +13,7 @@ jobs:
     uses: timmo001/workflows/.github/workflows/build-node-linux.yml@master
     with:
       additional-build-commands: |
-        yarn export
+        yarn build
       artifact-name: frontend-out
       artifact-path: out
   deploy-python:

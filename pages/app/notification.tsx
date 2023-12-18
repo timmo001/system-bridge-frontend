@@ -14,7 +14,7 @@ interface NotificationAction {
 
 function PageNotification(): ReactElement {
   const router = useRouter();
-  const { apiPort, apiKey, title, message, icon, image, actions } =
+  const { apiPort, token, title, message, icon, image, actions } =
     router.query as NodeJS.Dict<string>;
 
   function handleClose(): void {
@@ -25,7 +25,7 @@ function PageNotification(): ReactElement {
     console.log("Action clicked:", action);
     switch (action.command) {
       case "api":
-        new API(Number(apiPort) || 9170, String(apiKey))
+        new API(Number(apiPort) || 9174, String(token))
           .request(action.data as APIRequest)
           .then((response) => {
             console.log("API Response:", response.data);

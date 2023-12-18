@@ -1,83 +1,53 @@
-import { ReactElement, useMemo } from "react";
-import {
-  CardContent,
-  CircularProgress,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { ReactElement } from "react";
+import { CircularProgress, Grid, Typography } from "@mui/material";
+import { type CollapsedFieldProps } from "react-json-view";
+import dynamic from "next/dynamic";
 
-function DataItemsComponent({
-  name,
+import { type Modules } from "types/models";
+
+const BrowserReactJsonView = dynamic(() => import("react-json-view"), {
+  ssr: false,
+});
+
+export default function DataItemsComponent({
+  title,
   data,
 }: {
-  name: string;
-  data: any;
+  title: string;
+  data?: Modules;
 }): ReactElement {
-  const dataMap = useMemo<Array<[string, any]>>(
-    () =>
-      Object.entries(data).sort(
-        ([keyA]: [string, any], [keyB]: [string, any]) =>
-          keyA.localeCompare(keyB)
-      ),
-    [data]
-  );
-
-  const lastUpdated = dataMap.find(
-    ([key, value]: [string, any]) =>
-      key === "last_updated" && typeof value === "object"
-  );
-
   return (
-    <CardContent>
+    <>
       <Typography gutterBottom variant="h4" component="h3">
-        {name}
+        {title}
       </Typography>
       {data ? (
         <>
-          {/* Show data as table */}
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Key</TableCell>
-                  <TableCell>Value</TableCell>
-                  <TableCell>Last Updated</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {dataMap.map(
-                  ([key, value]: [string, any], index: number) =>
-                    key !== "last_updated" &&
-                    typeof value !== "object" && (
-                      <TableRow key={index}>
-                        <TableCell>{key}</TableCell>
-                        <TableCell>{String(value)}</TableCell>
-                        <TableCell>
-                          {new Date(
-                            lastUpdated?.[1][key] * 1000
-                          ).toLocaleString()}
-                        </TableCell>
-                      </TableRow>
-                    )
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <BrowserReactJsonView
+            collapseStringsAfterLength={120}
+            displayDataTypes={false}
+            displayObjectSize
+            enableClipboard
+            name={null}
+            shouldCollapse={(field: CollapsedFieldProps): boolean => {
+              console.log(field);
+              return field.name &&
+                field.type === "array" &&
+                Array.isArray(field.src) &&
+                field.src.length > 2
+                ? true
+                : false;
+            }}
+            src={data}
+            style={{ background: "initial", maxWidth: "100%" }}
+            theme="google"
+          />
         </>
       ) : (
         <Grid container direction="row" justifyContent="center">
           <CircularProgress />
         </Grid>
       )}
-    </CardContent>
+    </>
   );
 }
-
-export default DataItemsComponent;

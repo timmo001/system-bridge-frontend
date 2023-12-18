@@ -21,7 +21,6 @@ import { Icon } from "@mdi/react";
 import { mdiMinusBoxOutline, mdiPlus } from "@mdi/js";
 import _ from "lodash";
 
-import { NameValue } from "assets/entities/types.entity";
 import { SettingDescription } from "components/Settings/Settings";
 
 interface NameValueAlias {
@@ -43,10 +42,10 @@ const nameValueMap: { [key: string]: NameValueAlias } = {
 interface ItemListProps {
   id: string;
   setting: SettingDescription;
-  listIn: Array<NameValue>;
+  listIn: Array<Record<string, any>>;
   open: boolean;
   setOpen: (open: boolean) => void;
-  handleChanged: (list: Array<NameValue>) => void;
+  handleChanged: (list: Array<Record<string, any>>) => void;
 }
 
 function ItemList({
@@ -57,7 +56,7 @@ function ItemList({
   setOpen,
   handleChanged,
 }: ItemListProps): ReactElement {
-  const [list, setList] = useState<Array<NameValue>>([]);
+  const [list, setList] = useState<Array<Record<string, any>>>([]);
 
   const { name, description, icon }: SettingDescription = setting;
 
@@ -113,7 +112,8 @@ function ItemList({
                     variant="outlined"
                     value={item.name}
                     onChange={(event) => {
-                      const newList: Array<NameValue> = _.cloneDeep(list);
+                      const newList: Array<Record<string, any>> =
+                        _.cloneDeep(list);
                       console.log("Update name:", key, newList, newList[key]);
                       if (newList && newList[key]) {
                         newList[key].name = event.target.value;

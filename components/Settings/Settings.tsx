@@ -1,5 +1,5 @@
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import { CircularProgress, Grid, useTheme } from "@mui/material";
+import { CircularProgress, Grid, TextField, useTheme } from "@mui/material";
 import { useRouter } from "next/router";
 import {
   mdiFolderMultipleOutline,
@@ -9,19 +9,14 @@ import {
   mdiTextBoxOutline,
 } from "@mdi/js";
 
-import { Event } from "assets/entities/event.entity";
-import { SettingsObject, SettingsValue } from "assets/entities/settings.entity";
+import { SettingDirectory, SettingHotkey, type Settings } from "types/settings";
+import { type WebSocketResponse } from "types/websocket";
 import { useSettings } from "components/Contexts/Settings";
 import { WebSocketConnection } from "components/Common/WebSocket";
-import Item from "components/Settings/Item";
 import Section from "components/Settings/Section";
+import Item from "components/Settings/Item";
 
 let ws: WebSocketConnection;
-
-interface SettingResult {
-  key: string;
-  value: SettingsValue;
-}
 
 export interface SettingDescription {
   name: string;
@@ -34,6 +29,16 @@ export interface SettingDescription {
 }
 
 export const settingsMap: { [key: string]: SettingDescription } = {
+  api_port: {
+    name: "API Port",
+    description: "Port for the API and WebSocket",
+    icon: mdiProtocol,
+  },
+  api_token: {
+    name: "API Token",
+    description: "Token for the API and WebSocket",
+    icon: mdiTextBoxOutline,
+  },
   autostart: {
     name: "Autostart",
     description: "Automatically start the application on startup",
@@ -44,12 +49,7 @@ export const settingsMap: { [key: string]: SettingDescription } = {
     description: "Log level for the application",
     icon: mdiTextBoxOutline,
   },
-  port_api: {
-    name: "API Port",
-    description: "Port for the API and WebSocket",
-    icon: mdiProtocol,
-  },
-  additional_media_directories: {
+  directories: {
     name: "Additional Media Directories",
     description: "Additional media directories for the media endpoint",
     icon: mdiFolderMultipleOutline,
@@ -70,53 +70,38 @@ function Settings(): ReactElement {
   const query = useRouter().query;
 
   const eventHandler = useCallback(
-    (event: Event) => {
-      console.log("Event:", event);
+    (event: WebSocketResponse) => {
+      console.log("New event:", event);
       if (event.type === "SETTINGS_RESULT") {
-        console.log("Settings result data:", event.data);
-        let newSettings: SettingsObject = {};
-        console.log("settingsMap:", settingsMap);
-        const settingsKeys = Object.keys(settingsMap);
-        event.data
-          .sort((a: SettingResult, b: SettingResult) =>
-            settingsKeys.indexOf(a.key) > settingsKeys.indexOf(b.key) ? 1 : -1,
-          )
-          .forEach((s: SettingResult) => {
-            // Parse JSON if the value is a stringified list
-            if (settingsMap[s.key]?.isList && typeof s.value === "string") {
-              newSettings[s.key] = JSON.parse(s.value);
-            } else newSettings[s.key] = s.value;
-          });
-        console.log("Settings:", newSettings);
-        setSettings(newSettings);
+        setSettings(event.data as Settings);
       }
     },
-    [setSettings],
+    [setSettings]
   );
 
   const handleSetup = useCallback(
-    (port: number, apiKey: string) => {
+    (port: number, token: string) => {
       console.log("Setup WebSocketConnection");
-      ws = new WebSocketConnection(port, apiKey, async () => {
+      ws = new WebSocketConnection(port, token, async () => {
         ws.getSettings();
       });
-      ws.onEvent = eventHandler;
+      ws.onEvent = (e: Event) => eventHandler(e as WebSocketResponse);
     },
-    [eventHandler],
+    [eventHandler]
   );
 
   const handleChanged = useCallback(
-    (key: string, value: SettingsValue) => {
-      ws.updateSetting(key, value);
-      setSettings({ ...settings, [key]: value });
+    (newSettings: Settings) => {
+      ws.updateSettings(newSettings);
+      setSettings(settings);
     },
-    [settings, setSettings],
+    [settings, setSettings]
   );
 
   useEffect(() => {
-    if (!setup && query && query.apiKey) {
+    if (!setup && query && query.token) {
       setSetup(true);
-      handleSetup(Number(query.apiPort) || 9170, String(query.apiKey));
+      handleSetup(Number(query.apiPort) || 9174, String(query.token));
     }
   }, [setup, handleSetup, query]);
 
@@ -135,18 +120,79 @@ function Settings(): ReactElement {
         }}
       >
         {settings ? (
-          <Section name="General" description="General settings">
-            <>
-              {Object.keys(settings).map((key: string, index: number) => (
-                <Item
-                  key={index}
-                  keyIn={key}
-                  valueIn={settings[key]}
-                  handleChanged={handleChanged}
-                />
-              ))}
-            </>
-          </Section>
+          <>
+            <Section name="API" description="API settings">
+              <Item
+                keyIn="api_port"
+                valueIn={settings.api.port}
+                handleChanged={(value: number) =>
+                  handleChanged({
+                    ...settings,
+                    api: { ...settings.api, port: value },
+                  })
+                }
+              />
+              {/* <Item
+              keyIn="api_token"
+              valueIn={settings.api.token}
+              handleChanged={(value: string) =>
+                handleChanged({
+                  ...settings,
+                  api: { ...settings.api, token: value },
+                })
+              }
+            /> */}
+            </Section>
+            <Section name="General" description="General settings">
+              <Item
+                keyIn="autostart"
+                valueIn={settings.autostart}
+                handleChanged={(value: boolean) =>
+                  handleChanged({
+                    ...settings,
+                    autostart: value,
+                  })
+                }
+              />
+              <Item
+                keyIn="log_level"
+                valueIn={settings.log_level}
+                handleChanged={(value: string) =>
+                  handleChanged({
+                    ...settings,
+                    log_level: value,
+                  })
+                }
+              />
+            </Section>
+            <Section name="Keyboard" description="Keyboard settings">
+              <Item
+                keyIn="keyboard_hotkeys"
+                valueIn={settings.keyboard_hotkeys}
+                handleChanged={(value: Array<SettingHotkey>) =>
+                  handleChanged({
+                    ...settings,
+                    keyboard_hotkeys: value,
+                  })
+                }
+              />
+            </Section>
+            <Section name="Media" description="Media settings">
+              <Item
+                keyIn="directories"
+                valueIn={settings.media.directories}
+                handleChanged={(value: Array<SettingDirectory>) =>
+                  handleChanged({
+                    ...settings,
+                    media: {
+                      ...settings.media,
+                      directories: value,
+                    },
+                  })
+                }
+              />
+            </Section>
+          </>
         ) : (
           <Grid
             container

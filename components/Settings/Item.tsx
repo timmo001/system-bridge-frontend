@@ -26,23 +26,23 @@ import {
 } from "@mdi/js";
 
 import { handleCopyToClipboard } from "components/Common/Utils";
-import { NameValue } from "assets/entities/types.entity";
 import { SettingDescription, settingsMap } from "components/Settings/Settings";
-import { SettingsValue } from "assets/entities/settings.entity";
 import ItemList from "components/Settings/ItemList";
 
-interface ItemProps {
+function Item({
+  keyIn,
+  valueIn,
+  handleChanged,
+}: {
   keyIn: string;
-  valueIn: SettingsValue;
-  handleChanged: (key: string, value: SettingsValue) => void;
-}
-
-function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
+  valueIn: any;
+  handleChanged: (value: any) => void;
+}): ReactElement {
   const [open, setOpen] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [value, setValue] = useState<SettingsValue>(valueIn);
+  const [value, setValue] = useState<any>(valueIn);
 
-  function handleSetSetting(valueIn: SettingsValue): void {
+  function handleSetSetting(valueIn: any): void {
     setValue(valueIn);
   }
 
@@ -52,7 +52,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
 
   function handleCheckedChanged(
     _event: ChangeEvent<HTMLInputElement>,
-    checked: boolean,
+    checked: boolean
   ): void {
     handleSetSetting(checked);
   }
@@ -61,7 +61,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
     if (value) handleSetSetting(value);
   }
 
-  function handleGenerateApiKey(): void {
+  function handleGenerateToken(): void {
     handleSetSetting(uuidv4());
   }
 
@@ -70,7 +70,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
   }
 
   function handleMouseDownPassword(
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: React.MouseEvent<HTMLButtonElement>
   ): void {
     event.preventDefault();
   }
@@ -118,8 +118,10 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
           {isList ? (
             ""
           ) : (
-            <ListItemSecondaryAction sx={{ width: 420, textAlign: "end" }}>
-              <Grid container alignItems="center" justifyContent="flex-end">
+            <ListItemSecondaryAction
+              sx={{ maxHeight: "100%", width: 420, textAlign: "end" }}
+            >
+              <Grid container alignItems="center" justifyContent="flex-end" wrap="nowrap">
                 <Grid item>
                   {typeof value === "boolean" ? (
                     <Switch
@@ -128,8 +130,14 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
                       checked={value}
                       onChange={handleCheckedChanged}
                     />
-                  ) : typeof valueIn === "string" && keyIn === "api_key" ? (
-                    <FormControl fullWidth variant="outlined">
+                  ) : typeof valueIn === "string" && keyIn === "api_token" ? (
+                    <FormControl
+                      fullWidth
+                      variant="outlined"
+                      sx={{
+                        minWidth: 420,
+                      }}
+                    >
                       <OutlinedInput
                         type="text"
                         disabled
@@ -137,15 +145,15 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
                         endAdornment={
                           <InputAdornment position="end">
                             <IconButton
-                              aria-label="Generate Api Key"
-                              onClick={handleGenerateApiKey}
+                              aria-label="Generate Token"
+                              onClick={handleGenerateToken}
                               edge="end"
                               size="large"
                               sx={{ margin: theme.spacing(-1, -0.5) }}
                             >
                               <Icon
-                                id="generate-api-key"
-                                title="Generate API Key"
+                                id="generate-token"
+                                title="Generate Token"
                                 size={1}
                                 path={mdiCached}
                               />
@@ -239,7 +247,7 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
                   <IconButton
                     disabled={valueChanged === false}
                     onClick={() => {
-                      handleChanged(keyIn, value);
+                      handleChanged(value);
                     }}
                     sx={{ margin: theme.spacing(1) }}
                   >
@@ -262,12 +270,12 @@ function Item({ keyIn, valueIn, handleChanged }: ItemProps): ReactElement {
           <ItemList
             id={keyIn}
             setting={settingsMap[keyIn]}
-            listIn={value as unknown as Array<NameValue>}
+            listIn={value as Array<Record<string, any>>}
             open={open}
             setOpen={setOpen}
-            handleChanged={(newValue: Array<NameValue>) => {
+            handleChanged={(newValue: Array<Record<string, any>>) => {
               setValue(newValue);
-              handleChanged(keyIn, JSON.stringify(newValue));
+              handleChanged(JSON.stringify(newValue));
             }}
           />
         </>

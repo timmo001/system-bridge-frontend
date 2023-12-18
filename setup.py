@@ -1,4 +1,4 @@
-"""Setup"""
+"""Setup."""
 import os
 from shutil import copytree
 
@@ -20,7 +20,7 @@ copytree(
 
 package_data = ["out/**/*"]
 
-for root, dirs, files in os.walk("systembridgefrontend/out"):
+for root, _, files in os.walk("systembridgefrontend/out"):
     for filename in files:
         package_data.append(
             os.path.join(root, filename)

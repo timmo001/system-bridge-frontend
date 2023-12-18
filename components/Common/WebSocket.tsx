@@ -1,17 +1,18 @@
-import { SettingsValue } from "assets/entities/settings.entity";
+import { v4 as uuid } from "uuid";
+
+import { type Settings } from "types/settings";
 import { PlayerStatus } from "components/Player/Utils";
-import { Event } from "../../assets/entities/event.entity";
 
 export class WebSocketConnection {
   public onEvent?: (event: Event) => void;
   public port: number;
   public websocket: WebSocket | undefined;
 
-  private apiKey: string;
+  private token: string;
 
-  constructor(port: number, apiKey: string, connected?: () => void) {
-    this.port = port || 9170;
-    this.apiKey = apiKey;
+  constructor(port: number, token: string, connected?: () => void) {
+    this.port = port || 9174;
+    this.token = token;
     (async () => {
       this.websocket = await this.connect();
       if (
@@ -32,7 +33,7 @@ export class WebSocketConnection {
     const ws = new WebSocket(
       `ws://${window.location.hostname || "localhost"}:${
         this.port
-      }/api/websocket`,
+      }/api/websocket`
     );
     await new Promise<void>((resolve) => {
       ws.onopen = () => resolve();
@@ -55,10 +56,13 @@ export class WebSocketConnection {
       console.log("Get data:", modules);
       this.websocket.send(
         JSON.stringify({
-          api_key: this.apiKey,
+          id: uuid(),
+          token: this.token,
           event: "GET_DATA",
-          modules: modules,
-        }),
+          data: {
+            modules: modules,
+          },
+        })
       );
     }
   }
@@ -68,9 +72,11 @@ export class WebSocketConnection {
       console.log("Get settings");
       this.websocket.send(
         JSON.stringify({
-          api_key: this.apiKey,
+          id: uuid(),
+          token: this.token,
           event: "GET_SETTINGS",
-        }),
+          data: {},
+        })
       );
     }
   }
@@ -80,10 +86,13 @@ export class WebSocketConnection {
       console.log("Register data listener:", modules);
       this.websocket.send(
         JSON.stringify({
-          api_key: this.apiKey,
+          id: uuid(),
+          token: this.token,
           event: "REGISTER_DATA_LISTENER",
-          modules: modules,
-        }),
+          data: {
+            modules: modules,
+          },
+        })
       );
     }
   }
@@ -92,24 +101,27 @@ export class WebSocketConnection {
     if (this.websocket && this.websocket.readyState === this.websocket.OPEN) {
       this.websocket.send(
         JSON.stringify({
-          api_key: this.apiKey,
+          id: uuid(),
+          token: this.token,
           event: "MEDIA_STATUS",
-          status: status,
-        }),
+          data: {
+            status: status,
+          },
+        })
       );
     }
   }
 
-  updateSetting(key: string, value: SettingsValue): void {
+  updateSettings(newSettings: Settings): void {
     if (this.websocket && this.websocket.readyState === this.websocket.OPEN) {
-      console.log("Update setting:", { key, value });
+      console.log("Update setting:", newSettings);
       this.websocket.send(
         JSON.stringify({
-          api_key: this.apiKey,
-          event: "UPDATE_SETTING",
-          setting: key,
-          value: value,
-        }),
+          id: uuid(),
+          token: this.token,
+          event: "UPDATE_SETTINGS",
+          data: newSettings,
+        })
       );
     }
   }

@@ -8,7 +8,7 @@ import React, {
 import { useRouter } from "next/dist/client/router";
 import { cloneDeep, isEqual } from "lodash";
 
-import { Event } from "assets/entities/event.entity";
+// import { WebSocketResponse } from "types/websocket";
 import { PlayerStatus, usePlayer } from "./Utils";
 import { usePrevious } from "../Common/Utils";
 import { WebSocketConnection } from "components/Common/WebSocket";
@@ -29,7 +29,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
   const query = router.query as NodeJS.Dict<string>;
 
   const eventHandler = useCallback(
-    (event: Event) => {
+    (event: any) => { // WebSocketResponse
       console.log("Event:", event);
       switch (event.type) {
         case "MEDIA_PAUSE":
@@ -64,24 +64,24 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
           break;
       }
     },
-    [playerStatus, setPlayerStatus],
+    [playerStatus, setPlayerStatus]
   );
 
   const handleSetupWebSocket = useCallback(
-    (port: number, apiKey: string) => {
+    (port: number, token: string) => {
       console.log("Setup WebSocketConnection");
-      websocket = new WebSocketConnection(port, apiKey, async () => {
+      websocket = new WebSocketConnection(port, token, async () => {
         console.log("Connected to WebSocket");
       });
       websocket.onEvent = eventHandler;
     },
-    [eventHandler],
+    [eventHandler]
   );
 
   useEffect(() => {
-    if (!webSocketSetup && query && query.apiKey) {
+    if (!webSocketSetup && query && query.token) {
       setWebSocketSetup(true);
-      handleSetupWebSocket(Number(query.apiPort) || 9170, String(query.apiKey));
+      handleSetupWebSocket(Number(query.apiPort) || 9174, String(query.token));
     }
   }, [webSocketSetup, handleSetupWebSocket, query]);
 
@@ -146,7 +146,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
           "Player update\n\npreviousStatus:",
           previousStatus,
           "\nnewStatus:",
-          newStatus,
+          newStatus
         );
         if (!newStatus.loaded) return;
         if (!websocket) return;
