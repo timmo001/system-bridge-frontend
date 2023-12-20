@@ -28,6 +28,4 @@ jobs:
       additional-artifacts-name: frontend-out
       additional-artifacts-path: out
       module-name: systembridgefrontend
-      pre-install-command: |
-        pip install .
       use-incremental: true
