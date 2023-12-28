@@ -16,7 +16,7 @@
     "type": "git",
     "url": "https://github.com/timmo001/system-bridge"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "build": "next build",
     "eslint": "eslint --ext .ts --ext .tsx --color ./",
