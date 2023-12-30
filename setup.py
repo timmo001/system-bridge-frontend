@@ -28,7 +28,7 @@ for root, _, files in os.walk("systembridgefrontend/out"):
             .replace("systembridgefrontend/", "")
         )
 
-print(package_data)
+print(package_data)  # noqa: T201
 
 setup(
     name="systembridgefrontend",
