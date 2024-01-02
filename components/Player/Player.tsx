@@ -81,7 +81,7 @@ function PlayerComponent({ playerType }: PlayerProps): ReactElement {
   useEffect(() => {
     if (!webSocketSetup && query && query.token) {
       setWebSocketSetup(true);
-      handleSetupWebSocket(Number(query.apiPort) || 9174, String(query.token));
+      handleSetupWebSocket(Number(query.apiPort) || 9170, String(query.token));
     }
   }, [webSocketSetup, handleSetupWebSocket, query]);
 

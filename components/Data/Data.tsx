@@ -68,7 +68,7 @@ function DataComponent(): ReactElement {
   useEffect(() => {
     if (!setup && query && query.token) {
       setSetup(true);
-      handleSetup(Number(query.apiPort) || 9174, String(query.token));
+      handleSetup(Number(query.apiPort) || 9170, String(query.token));
     }
   }, [setup, handleSetup, query]);
 

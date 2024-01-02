@@ -18,7 +18,7 @@ import { useSettings } from "../Contexts/Settings";
 import BridgeEdit, { EditBridge } from "./Edit";
 
 const DEFAULT_BRIDGE: Partial</*Bridge*/ any> = {
-  port: 9174,
+  port: 9170,
 };
 
 function BridgesSetupComponent(): ReactElement {
@@ -37,7 +37,7 @@ function BridgesSetupComponent(): ReactElement {
         query.apiHost || typeof window !== "undefined"
           ? window.location.hostname
           : "localhost"
-      }:${query.apiPort || 9174}/api/remote`,
+      }:${query.apiPort || 9170}/api/remote`,
       {
         headers: { token: query.token as string },
       }

@@ -11,7 +11,7 @@ export class WebSocketConnection {
   private token: string;
 
   constructor(port: number, token: string, connected?: () => void) {
-    this.port = port || 9174;
+    this.port = port || 9170;
     this.token = token;
     (async () => {
       this.websocket = await this.connect();

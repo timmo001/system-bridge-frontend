@@ -40,7 +40,7 @@ function BridgesOpenOnComponent(): ReactElement {
         query.apiHost || typeof window !== "undefined"
           ? window.location.hostname
           : "localhost"
-      }:${query.apiPort || 9174}/api/remote`,
+      }:${query.apiPort || 9170}/api/remote`,
       {
         headers: { token: query.token as string },
       }
