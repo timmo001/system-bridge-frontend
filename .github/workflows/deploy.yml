@@ -14,11 +14,20 @@ env:
   MODULE_NAME: systembridgefrontend
 
 jobs:
+  build-node:
+    uses: timmo001/workflows/.github/workflows/build-node-linux.yml@master
+    with:
+      additional-build-commands: |
+        yarn build
+      artifact-name: frontend-out
+      artifact-path: out
   deploy:
     name: 🚀 Linux - Deploy Module
     runs-on: ubuntu-latest
     permissions:
       id-token: write
+    needs:
+      - build-node
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v4.1.1
