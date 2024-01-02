@@ -9,6 +9,8 @@ on:
   workflow_dispatch:
 
 env:
+  ADDITIONAL_ARTIFACTS_NAME: frontend-out
+  ADDITIONAL_ARTIFACTS_PATH: out
   MODULE_NAME: systembridgefrontend
 
 jobs:
@@ -23,6 +25,11 @@ jobs:
         with:
           ref: "master"
           token: ${{ secrets.PUSH_TOKEN }}
+      - name: ⬇️ Download additional artifacts
+        uses: actions/download-artifact@v4.1.0
+        with:
+          name: ${{ env.ADDITIONAL_ARTIFACTS_NAME }}
+          path: ${{ env.ADDITIONAL_ARTIFACTS_PATH }}
       - name: 🏗 Set up Python
         uses: actions/setup-python@v5.0.0
         with:
