@@ -30,17 +30,23 @@ for root, _, files in os.walk("systembridgefrontend/out"):
 
 print(package_data)  # noqa: T201
 
+with open("README.md", encoding="utf-8") as f:
+    readme = f.read()
+
 setup(
     name="systembridgefrontend",
-    description="System Bridge Frontend",
-    keywords="system-bridge",
     author="Aidan Timson (Timmo)",
     author_email="aidan@timmo.dev",
+    description="System Bridge Frontend",
+    keywords="system-bridge",
     license="Apache-2.0",
+    long_description=readme,
+    long_description_content_type="text/markdown",
     url="https://github.com/timmo001/system-bridge-frontend",
+    install_requires=requirements,
     packages=find_packages(exclude=["tests", "generator"]),
     package_data={"": package_data},
-    install_requires=requirements,
+    python_requires=">=3.11",
     setup_requires=requirements_setup,
     use_incremental=True,
 )
