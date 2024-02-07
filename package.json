@@ -34,7 +34,7 @@
     "@mui/material": "5.15.7",
     "@mui/styles": "5.15.8",
     "@mui/x-data-grid": "6.19.3",
-    "axios": "1.6.5",
+    "axios": "1.6.7",
     "clsx": "2.1.0",
     "lodash": "4.17.21",
     "moment": "2.30.1",
