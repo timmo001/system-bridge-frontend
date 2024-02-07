@@ -390,15 +390,6 @@
     react-is "^18.2.0"
     react-transition-group "^4.4.5"
 
-"@mui/private-theming@^5.15.4", "@mui/private-theming@^5.15.8":
-  version "5.15.8"
-  resolved "https://registry.yarnpkg.com/@mui/private-theming/-/private-theming-5.15.8.tgz#c545f09e125f4dceb6afcc2d0df58aaf19b3a98a"
-  integrity sha512-HMDPO416iMZPqs8nGUL3GJMDNpJtE1Uefw/Aw+zTKJHX5JnT+Bms41e2065BUT/zR5dYcKjFP4gQMwW5QX7nvA==
-  dependencies:
-    "@babel/runtime" "^7.23.9"
-    "@mui/utils" "^5.15.8"
-    prop-types "^15.8.1"
-
 "@mui/private-theming@^5.15.8":
   version "5.15.8"
   resolved "https://registry.yarnpkg.com/@mui/private-theming/-/private-theming-5.15.8.tgz#c545f09e125f4dceb6afcc2d0df58aaf19b3a98a"
@@ -470,10 +461,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@6.18.7":
-  version "6.18.7"
-  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.18.7.tgz#1cd30bb95bc7fa2a32b4ac7dc3c26aaa48670013"
-  integrity sha512-K1A3pMUPxI4/Mt5A4vrK45fBBQK5rZvBVqRMrB5n8zX++Bj+WLWKvLTtfCmlriUtzuadr/Hl7Z+FDRXUJAx6qg==
+"@mui/x-data-grid@6.19.3":
+  version "6.19.3"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-6.19.3.tgz#b4d17729f0da24aff60a3230f20b65e4e2eb6f8c"
+  integrity sha512-RHt+MhTgvpXTWY0MYvzSNLF8npo+mlmWuTO+qKRt42Zj634IlUYDwW5jjQ9fWZnIpWJLunw253KqHoAlSAOXaw==
   dependencies:
     "@babel/runtime" "^7.23.2"
     "@mui/utils" "^5.14.16"
