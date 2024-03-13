@@ -32,7 +32,7 @@
     "@mdi/react": "1.6.1",
     "@mui/lab": "5.0.0-alpha.167",
     "@mui/material": "5.15.12",
-    "@mui/styles": "5.15.12",
+    "@mui/styles": "5.15.13",
     "@mui/x-data-grid": "6.19.6",
     "axios": "1.6.7",
     "clsx": "2.1.0",
