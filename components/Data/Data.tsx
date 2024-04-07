@@ -48,7 +48,18 @@ function DataComponent(): ReactElement {
     if (event.type === "DATA_UPDATE")
       setData((oldData: ModuleData) => {
         const newData = cloneDeep(oldData);
-        newData[event.module as Module] = event.data as Modules;
+
+        // Sort the data
+        const data = event.data as Record<string, any>;
+        let sortedData: Record<string, any> = {};
+        Object.keys(data)
+          .sort()
+          .forEach((key: string) => {
+            sortedData[key] = data[key];
+          });
+
+        newData[event.module as Module] = sortedData as Modules;
+
         return newData;
       });
   }, []);
