@@ -19,7 +19,6 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "next build",
-    "eslint": "eslint --ext .ts --ext .tsx --color ./",
     "lint": "next lint",
     "start": "next start",
     "dev": "next dev"
@@ -53,7 +52,7 @@
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.24",
     "@types/uuid": "9.0.8",
-    "eslint": "8.57.0",
+    "eslint": "9.0.0",
     "eslint-config-next": "14.1.4",
     "typescript": "5.4.4"
   }
