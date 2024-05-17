@@ -47,7 +47,7 @@
     "uuid": "9.0.1"
   },
   "devDependencies": {
-    "@types/lodash": "4.17.0",
+    "@types/lodash": "4.17.4",
     "@types/node": "20.12.7",
     "@types/react": "18.2.77",
     "@types/react-dom": "18.2.25",
