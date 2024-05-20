@@ -33,7 +33,7 @@
     "@mui/material": "5.15.15",
     "@mui/styles": "5.15.15",
     "@mui/x-data-grid": "7.2.0",
-    "axios": "1.6.8",
+    "axios": "1.7.1",
     "clsx": "2.1.0",
     "lodash": "4.17.21",
     "moment": "2.30.1",
