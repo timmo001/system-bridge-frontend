@@ -77,6 +77,8 @@ function Item({
 
   const valueChanged = useMemo(() => valueIn !== value, [valueIn, value]);
 
+  if (!settingsMap[keyIn]) return <></>;
+
   const {
     name,
     description,
@@ -121,7 +123,12 @@ function Item({
             <ListItemSecondaryAction
               sx={{ maxHeight: "100%", width: 420, textAlign: "end" }}
             >
-              <Grid container alignItems="center" justifyContent="flex-end" wrap="nowrap">
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="flex-end"
+                wrap="nowrap"
+              >
                 <Grid item>
                   {typeof value === "boolean" ? (
                     <Switch
