@@ -36,7 +36,7 @@ function Layout(props: LayoutProps): ReactElement {
         needUpdate = true;
         newApiPort = window.prompt(
           "Please enter your API port (default: 9170)",
-          newApiPort,
+          newApiPort
         );
       }
       if (needUpdate && newToken && newApiPort) {
@@ -45,7 +45,7 @@ function Layout(props: LayoutProps): ReactElement {
           pathname:
             process.env.NODE_ENV === "development"
               ? path
-              : path.includes(".html")
+              : path?.includes(".html")
               ? path
               : `${path}.html`,
           query: {
