@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "A bridge for your systems",
   "private": true,
+  "type": "module",
   "author": {
     "name": "Aidan Timson <Timmo>",
     "email": "aidan@timmo.dev",
