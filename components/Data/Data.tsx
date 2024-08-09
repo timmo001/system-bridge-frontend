@@ -98,14 +98,16 @@ function DataComponent(): ReactElement {
         value={tab}
         sx={{ marginBottom: theme.spacing(2) }}
       >
-        {modules.map((module: string, index: number) => (
-          <Tab
-            icon={<Icon path={moduleMap[module].icon} size={1} />}
-            key={index}
-            label={moduleMap[module].name}
-            sx={{ minWidth: "auto" }}
-          />
-        ))}
+        {modules.map((module: string, index: number) =>
+          moduleMap && moduleMap[module] ? (
+            <Tab
+              icon={<Icon path={moduleMap[module].icon} size={1} />}
+              key={index}
+              label={moduleMap[module].name}
+              sx={{ minWidth: "auto" }}
+            />
+          ) : null
+        )}
       </Tabs>
       <Grid
         container
@@ -119,7 +121,7 @@ function DataComponent(): ReactElement {
             <Fragment key={index}>
               {tab === index ? (
                 <>
-                  {data[module as Module] ? (
+                  {moduleMap && moduleMap[module] ? (
                     <DataItems
                       title={moduleMap[module].name}
                       data={data[module as Module] as Modules}
