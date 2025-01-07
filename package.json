@@ -31,7 +31,7 @@
     "@mdi/js": "7.4.47",
     "@mdi/react": "1.6.1",
     "@mui/lab": "5.0.0-alpha.173",
-    "@mui/material": "5.16.7",
+    "@mui/material": "5.16.14",
     "@mui/styles": "5.16.7",
     "@mui/x-data-grid": "7.12.0",
     "axios": "1.7.3",
